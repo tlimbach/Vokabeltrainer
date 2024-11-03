@@ -73,6 +73,16 @@
         #choices button:hover {
             background-color: #ebde6a;
         }
+        /* CSS für korrekte und falsche Antwortbuttons */
+        #choices button.correct {
+            background-color: #4CAF50 !important; /* Grün für richtige Antwort */
+            color: white;
+        }
+
+        #choices button.incorrect {
+            background-color: #f44336 !important; /* Rot für falsche Antwort */
+            color: white;
+        }
         /* Positionierung des Abbrechen-Buttons */
         #abortButton {
             margin-top: 100px;
@@ -226,22 +236,27 @@
             ).join("");
         }
 
+
+
         function checkAnswer(button, selected, correct) {
             if (selected === correct) {
                 button.classList.add("correct");
-                playSound(880, 0.2);  // Hoher Ton (z. B. 880 Hz) für richtige Antwort
+                playSound(880, 0.2);  // Hoher Ton (880 Hz) für richtige Antwort
                 progressSegments[currentIndex].classList.add("progress-correct");
             } else {
                 button.classList.add("incorrect");
-                playSound(440, 0.8);  // Tiefer Ton (z. B. 440 Hz) für falsche Antwort
+                playSound(440, 0.8);  // Tiefer Ton (440 Hz) für falsche Antwort
                 progressSegments[currentIndex].classList.add("progress-incorrect");
             }
 
+            // Hintergrundfarbe nach 1 Sekunde zurücksetzen und nächste Frage laden
             setTimeout(() => {
+                button.classList.remove("correct", "incorrect");
                 currentIndex = (currentIndex + 1) % vocabularyList.length;
                 loadMultipleChoiceQuestion();
             }, 1000);
         }
+
 
 
         function endTraining() {
