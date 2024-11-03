@@ -281,14 +281,28 @@
         }
 
         function playSound(frequency, duration) {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            oscillator.connect(audioContext.destination);
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + duration);
-        }
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain(); // Hinzufügen eines Gain-Nodes für die Lautstärkesteuerung
+
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+    // Verbinden des Oscillators mit dem GainNode und dann mit dem Ziel (den Lautsprechern)
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    // Sanfte Attack-Phase
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.05); // 50ms Attack
+
+    // Ton abspielen und sanft beenden
+    oscillator.start(audioContext.currentTime);
+    gainNode.gain.setValueAtTime(1, audioContext.currentTime + duration - 0.1); // Halte Lautstärke für die Dauer des Tons
+    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration); // Release von 100ms
+
+    oscillator.stop(audioContext.currentTime + duration); // Beendet den Ton nach der angegebenen Dauer
+}
     </script>
 </body>
 </html>
