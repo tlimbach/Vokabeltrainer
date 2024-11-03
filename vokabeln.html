@@ -229,11 +229,11 @@
         function checkAnswer(button, selected, correct) {
             if (selected === correct) {
                 button.classList.add("correct");
-                playSound(880);  // Hoher Ton (z. B. 880 Hz) für richtige Antwort
+                playSound(880, 0.2);  // Hoher Ton (z. B. 880 Hz) für richtige Antwort
                 progressSegments[currentIndex].classList.add("progress-correct");
             } else {
                 button.classList.add("incorrect");
-                playSound(440);  // Tiefer Ton (z. B. 440 Hz) für falsche Antwort
+                playSound(440, 0.8);  // Tiefer Ton (z. B. 440 Hz) für falsche Antwort
                 progressSegments[currentIndex].classList.add("progress-incorrect");
             }
 
@@ -251,14 +251,14 @@
                 document.getElementById("multiple-choice-mode").classList.add("hidden");
             }
         }
-        function playSound(frequency) {
+        function playSound(frequency, duration) {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
             oscillator.type = 'sine';
             oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime); // Frequenz einstellen
             oscillator.connect(audioContext.destination);
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.2); // Spielt Ton für 0,2 Sekunden
+            oscillator.stop(audioContext.currentTime + duration); // Spielt Ton für 0,2 Sekunden
         }
     </script>
 </body>
