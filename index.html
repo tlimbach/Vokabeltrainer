@@ -1,308 +1,340 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vokabeltrainer</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            flex-direction: column;
-        }
-        #container {
-            width: 350px;
-            background-color: white;
-            padding: 30px 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            position: relative;
-        }
-        button, select {
-            margin-top: 15px;
-            padding: 10px;
-            width: 100%;
-            font-size: 1rem;
-        } 
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .hidden {
-            display: none;
-        }
-        #progress {
-            display: flex;
-            margin-top: 20px;
-            height: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .progress-segment {
-            flex: 1;
-            background-color: #ddd;
-        }
-        .progress-correct {
-            background-color: #4CAF50;
-        }
-        .progress-incorrect {
-            background-color: #f44336;
-        }
-        #choices {
-            display: grid;
-            grid-template-columns: 150px 150px;
-            grid-template-rows: 150px 150px;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        #choices button {
-            width: 150px;
-            height: 150px;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 8px;
-            border: none;
-            background-color: #eee69d;
-            color: rgb(2, 1, 1);
-            transition: background-color 0.3s;
-        }
-        #choices button:hover {
-            background-color: #ebde6a;
-        }
-        #choices button.correct {
-            background-color: #4CAF50 !important;
-            color: white;
-        }
-        #choices button.incorrect {
-            background-color: #f44336 !important;
-            color: white;
-        }
-        #abortButton {
-            margin-top: 20px;
-            padding: 5px 15px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            background-color: #b7b7b7;
-            color: rgb(9, 5, 5);
-            border: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            width: auto;
-            position: absolute;
-            bottom: -40px;
-            right: 20px;
-        }
-        #abortButton:hover {
-            background-color: #d5d5d5;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        flex-direction: column;
+      }
+      #container {
+        width: 350px;
+        background-color: white;
+        padding: 30px 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+      }
+      button,
+      select {
+        margin-top: 15px;
+        padding: 10px;
+        width: 100%;
+        font-size: 1rem;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      .hidden {
+        display: none;
+      }
+      #progress {
+        display: flex;
+        margin-top: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .progress-segment {
+        flex: 1;
+        background-color: #ddd;
+      }
+      .progress-correct {
+        background-color: #4caf50;
+      }
+      .progress-incorrect {
+        background-color: #f44336;
+      }
+      #choices {
+        display: grid;
+        grid-template-columns: 150px 150px;
+        grid-template-rows: 150px 150px;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      #choices button {
+        width: 150px;
+        height: 150px;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        background-color: #eee69d;
+        color: rgb(2, 1, 1);
+        transition: background-color 0.3s;
+      }
+      #choices button:hover {
+        background-color: #ebde6a;
+      }
+      #choices button.correct {
+        background-color: #4caf50 !important;
+        color: white;
+      }
+      #choices button.incorrect {
+        background-color: #f44336 !important;
+        color: white;
+      }
+      #abortButton {
+        margin-top: 20px;
+        padding: 5px 15px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        background-color: #b7b7b7;
+        color: rgb(9, 5, 5);
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        width: auto;
+        position: absolute;
+        bottom: -40px;
+        right: 20px;
+      }
+      #abortButton:hover {
+        background-color: #d5d5d5;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="container">
-        <!-- Einstellungen -->
-        <div id="settings">
-            <label for="direction">Übersetzungsrichtung:</label>
-            <select id="direction">
-                <option value="de-en">Deutsch -> Englisch</option>
-                <option value="en-de">Englisch -> Deutsch</option>
-            </select>
+      <!-- Einstellungen -->
+      <div id="settings">
+        <label for="direction">Übersetzungsrichtung:</label>
+        <select id="direction">
+          <option value="de-en">Deutsch -> Englisch</option>
+          <option value="en-de">Englisch -> Deutsch</option>
+        </select>
 
-            <label for="mode">Übungsmodus:</label>
-            <select id="mode">
-                <option value="flashcard">Karteikarten</option>
-                <option value="multiple-choice">Multiple Choice</option>
-            </select>
+        <label for="mode">Übungsmodus:</label>
+        <select id="mode">
+          <option value="flashcard">Karteikarten</option>
+          <option value="multiple-choice">Multiple Choice</option>
+        </select>
 
-            <button onclick="startTraining()">Start</button>
-        </div>
+        <button onclick="startTraining()">Start</button>
+      </div>
 
-        <!-- Karteikarten-Modus -->
-        <div id="flashcard-mode" class="hidden">
-            <p id="vocabulary"></p>
-            <button id="flipButton" onclick="flipCard()">Karte umdrehen</button>
-            <button id="knowButton" class="hidden" onclick="markKnown(true)">Kann ich</button>
-            <button id="dontKnowButton" class="hidden" onclick="markKnown(false)">Kann ich nicht</button>
-        </div>
+      <!-- Karteikarten-Modus -->
+      <div id="flashcard-mode" class="hidden">
+        <p id="vocabulary"></p>
+        <button id="flipButton" onclick="flipCard()">Karte umdrehen</button>
+        <button id="knowButton" class="hidden" onclick="markKnown(true)">
+          Kann ich
+        </button>
+        <button id="dontKnowButton" class="hidden" onclick="markKnown(false)">
+          Kann ich nicht
+        </button>
+      </div>
 
-        <!-- Multiple-Choice-Modus -->
-        <div id="multiple-choice-mode" class="hidden">
-            <div id="progress"></div>
-            <p id="question"></p>
-            <div id="choices"></div>
-        </div>
+      <!-- Multiple-Choice-Modus -->
+      <div id="multiple-choice-mode" class="hidden">
+        <div id="progress"></div>
+        <p id="question"></p>
+        <div id="choices"></div>
+      </div>
 
-        <!-- Abbrechen-Button rechtsbündig unter dem Container -->
-        <button id="abortButton" onclick="endTraining()">Abbrechen</button>
+      <!-- Abbrechen-Button rechtsbündig unter dem Container -->
+      <button id="abortButton" onclick="endTraining()">Abbrechen</button>
     </div>
 
     <script>
-        const vocabularyList = [
-            { "deutsch": "Apfel", "englisch": "apple" },
-            { "deutsch": "Haus", "englisch": "house" },
-            { "deutsch": "Buch", "englisch": "book" },
-            { "deutsch": "Stuhl", "englisch": "chair" },
-            { "deutsch": "Hund", "englisch": "dog" },
-            { "deutsch": "Katze", "englisch": "cat" },
-            { "deutsch": "Auto", "englisch": "car" },
-            { "deutsch": "Baum", "englisch": "tree" },
-            { "deutsch": "Wasser", "englisch": "water" },
-            { "deutsch": "Tisch", "englisch": "table" }
-        ];
-        
-        let currentMode = "";
-        let currentIndex = 0;
-        let direction = "de-en";
-        let progressSegments = [];
-        let correctAnswers = 0;
+      const vocabularyList = [
+        { deutsch: "Apfel", englisch: "apple" },
+        { deutsch: "Haus", englisch: "house" },
+        { deutsch: "Buch", englisch: "book" },
+        { deutsch: "Stuhl", englisch: "chair" },
+        { deutsch: "Hund", englisch: "dog" },
+        { deutsch: "Katze", englisch: "cat" },
+        { deutsch: "Auto", englisch: "car" },
+        { deutsch: "Baum", englisch: "tree" },
+        { deutsch: "Wasser", englisch: "water" },
+        { deutsch: "Tisch", englisch: "table" },
+      ];
 
-        function startTraining() {
-            direction = document.getElementById("direction").value;
-            currentMode = document.getElementById("mode").value;
-            correctAnswers = 0;
-            currentIndex = 0;
+      let currentMode = "";
+      let currentIndex = 0;
+      let direction = "de-en";
+      let progressSegments = [];
+      let correctAnswers = 0;
 
-            document.getElementById("settings").classList.add("hidden");
-            
-            if (currentMode === "flashcard") {
-                startFlashcardMode();
-            } else if (currentMode === "multiple-choice") {
-                startMultipleChoiceMode();
-            }
+      function startTraining() {
+        direction = document.getElementById("direction").value;
+        currentMode = document.getElementById("mode").value;
+        correctAnswers = 0;
+        currentIndex = 0;
+
+        document.getElementById("settings").classList.add("hidden");
+
+        if (currentMode === "flashcard") {
+          startFlashcardMode();
+        } else if (currentMode === "multiple-choice") {
+          startMultipleChoiceMode();
+        }
+      }
+
+      function startFlashcardMode() {
+        document.getElementById("flashcard-mode").classList.remove("hidden");
+        loadFlashcard();
+      }
+
+      function loadFlashcard() {
+        const vocab = vocabularyList[currentIndex];
+        document.getElementById("vocabulary").innerText =
+          direction === "de-en" ? vocab.deutsch : vocab.englisch;
+        document.getElementById("flipButton").classList.remove("hidden");
+        document.getElementById("knowButton").classList.add("hidden");
+        document.getElementById("dontKnowButton").classList.add("hidden");
+      }
+
+      function flipCard() {
+        const vocab = vocabularyList[currentIndex];
+        document.getElementById("vocabulary").innerText =
+          direction === "de-en" ? vocab.englisch : vocab.deutsch;
+        document.getElementById("flipButton").classList.add("hidden");
+        document.getElementById("knowButton").classList.remove("hidden");
+        document.getElementById("dontKnowButton").classList.remove("hidden");
+      }
+
+      function markKnown(isKnown) {
+        currentIndex = (currentIndex + 1) % vocabularyList.length;
+        loadFlashcard();
+      }
+
+      function startMultipleChoiceMode() {
+        document
+          .getElementById("multiple-choice-mode")
+          .classList.remove("hidden");
+        initializeProgressBar();
+        loadMultipleChoiceQuestion();
+      }
+
+      function initializeProgressBar() {
+        const progressContainer = document.getElementById("progress");
+        progressContainer.innerHTML = "";
+        progressSegments = [];
+
+        vocabularyList.forEach(() => {
+          const segment = document.createElement("div");
+          segment.classList.add("progress-segment");
+          progressContainer.appendChild(segment);
+          progressSegments.push(segment);
+        });
+      }
+
+      function loadMultipleChoiceQuestion() {
+        if (currentIndex >= vocabularyList.length) {
+          showResultDialog();
+          return;
         }
 
-        function startFlashcardMode() {
-            document.getElementById("flashcard-mode").classList.remove("hidden");
-            loadFlashcard();
+        const vocab = vocabularyList[currentIndex];
+        const correctAnswer =
+          direction === "de-en" ? vocab.englisch : vocab.deutsch;
+        const questionText =
+          direction === "de-en" ? vocab.deutsch : vocab.englisch;
+
+        document.getElementById("question").innerText = questionText;
+
+        const choices = [correctAnswer];
+        while (choices.length < 4) {
+          const randomChoice =
+            vocabularyList[Math.floor(Math.random() * vocabularyList.length)][
+              direction === "de-en" ? "englisch" : "deutsch"
+            ];
+          if (!choices.includes(randomChoice)) {
+            choices.push(randomChoice);
+          }
+        }
+        choices.sort(() => Math.random() - 0.5);
+
+        document.getElementById("choices").innerHTML = choices
+          .map(
+            (choice) =>
+              `<button onclick="checkAnswer(this, '${choice}', '${correctAnswer}')">${choice}</button>`
+          )
+          .join("");
+      }
+
+      function checkAnswer(button, selected, correct) {
+        if (selected === correct) {
+          button.classList.add("correct");
+          playSound(880, 0.2);
+          progressSegments[currentIndex].classList.add("progress-correct");
+          correctAnswers++;
+        } else {
+          button.classList.add("incorrect");
+          playSound(440, 0.8);
+          progressSegments[currentIndex].classList.add("progress-incorrect");
         }
 
-        function loadFlashcard() {
-            const vocab = vocabularyList[currentIndex];
-            document.getElementById("vocabulary").innerText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
-            document.getElementById("flipButton").classList.remove("hidden");
-            document.getElementById("knowButton").classList.add("hidden");
-            document.getElementById("dontKnowButton").classList.add("hidden");
-        }
+        setTimeout(() => {
+          button.classList.remove("correct", "incorrect");
+          currentIndex++;
+          loadMultipleChoiceQuestion();
+        }, 1000);
+      }
 
-        function flipCard() {
-            const vocab = vocabularyList[currentIndex];
-            document.getElementById("vocabulary").innerText = direction === "de-en" ? vocab.englisch : vocab.deutsch;
-            document.getElementById("flipButton").classList.add("hidden");
-            document.getElementById("knowButton").classList.remove("hidden");
-            document.getElementById("dontKnowButton").classList.remove("hidden");
-        }
+      function showResultDialog() {
+        alert(
+          `Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`
+        );
+        endTraining();
+      }
 
-        function markKnown(isKnown) {
-            currentIndex = (currentIndex + 1) % vocabularyList.length;
-            loadFlashcard();
-        }
+      function endTraining() {
+        document.getElementById("settings").classList.remove("hidden");
+        document.getElementById("flashcard-mode").classList.add("hidden");
+        document.getElementById("multiple-choice-mode").classList.add("hidden");
+      }
 
-        function startMultipleChoiceMode() {
-            document.getElementById("multiple-choice-mode").classList.remove("hidden");
-            initializeProgressBar();
-            loadMultipleChoiceQuestion();
-        }
+      function playSound(frequency, duration) {
+        const audioContext = new (window.AudioContext ||
+          window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain(); // Hinzufügen eines Gain-Nodes für die Lautstärkesteuerung
 
-        function initializeProgressBar() {
-            const progressContainer = document.getElementById("progress");
-            progressContainer.innerHTML = "";
-            progressSegments = [];
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(
+          frequency,
+          audioContext.currentTime
+        );
 
-            vocabularyList.forEach(() => {
-                const segment = document.createElement("div");
-                segment.classList.add("progress-segment");
-                progressContainer.appendChild(segment);
-                progressSegments.push(segment);
-            });
-        }
+        // Verbinden des Oscillators mit dem GainNode und dann mit dem Ziel (den Lautsprechern)
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-        function loadMultipleChoiceQuestion() {
-            if (currentIndex >= vocabularyList.length) {
-                showResultDialog();
-                return;
-            }
+        // Sanfte Attack-Phase
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(
+          1,
+          audioContext.currentTime + 0.05
+        ); // 50ms Attack
 
-            const vocab = vocabularyList[currentIndex];
-            const correctAnswer = direction === "de-en" ? vocab.englisch : vocab.deutsch;
-            const questionText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
+        // Ton abspielen und sanft beenden
+        oscillator.start(audioContext.currentTime);
+        gainNode.gain.setValueAtTime(
+          1,
+          audioContext.currentTime + duration - 0.1
+        ); // Halte Lautstärke für die Dauer des Tons
+        gainNode.gain.linearRampToValueAtTime(
+          0,
+          audioContext.currentTime + duration
+        ); // Release von 100ms
 
-            document.getElementById("question").innerText = questionText;
-
-            const choices = [correctAnswer];
-            while (choices.length < 4) {
-                const randomChoice = vocabularyList[Math.floor(Math.random() * vocabularyList.length)][direction === "de-en" ? "englisch" : "deutsch"];
-                if (!choices.includes(randomChoice)) {
-                    choices.push(randomChoice);
-                }
-            }
-            choices.sort(() => Math.random() - 0.5);
-
-            document.getElementById("choices").innerHTML = choices.map(choice =>
-                `<button onclick="checkAnswer(this, '${choice}', '${correctAnswer}')">${choice}</button>`
-            ).join("");
-        }
-
-        function checkAnswer(button, selected, correct) {
-            if (selected === correct) {
-                button.classList.add("correct");
-                playSound(880, 0.2); 
-                progressSegments[currentIndex].classList.add("progress-correct");
-                correctAnswers++;
-            } else {
-                button.classList.add("incorrect");
-                playSound(440, 0.8);
-                progressSegments[currentIndex].classList.add("progress-incorrect");
-            }
-
-            setTimeout(() => {
-                button.classList.remove("correct", "incorrect");
-                currentIndex++;
-                loadMultipleChoiceQuestion();
-            }, 1000);
-        }
-
-        function showResultDialog() {
-            alert(`Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`);
-            endTraining();
-        }
-
-        function endTraining() {
-            document.getElementById("settings").classList.remove("hidden");
-            document.getElementById("flashcard-mode").classList.add("hidden");
-            document.getElementById("multiple-choice-mode").classList.add("hidden");
-        }
-
-        function playSound(frequency, duration) {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain(); // Hinzufügen eines Gain-Nodes für die Lautstärkesteuerung
-
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-    // Verbinden des Oscillators mit dem GainNode und dann mit dem Ziel (den Lautsprechern)
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    // Sanfte Attack-Phase
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.05); // 50ms Attack
-
-    // Ton abspielen und sanft beenden
-    oscillator.start(audioContext.currentTime);
-    gainNode.gain.setValueAtTime(1, audioContext.currentTime + duration - 0.1); // Halte Lautstärke für die Dauer des Tons
-    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration); // Release von 100ms
-
-    oscillator.stop(audioContext.currentTime + duration); // Beendet den Ton nach der angegebenen Dauer
-}
+        oscillator.stop(audioContext.currentTime + duration); // Beendet den Ton nach der angegebenen Dauer
+      }
     </script>
-</body>
+  </body>
 </html>
