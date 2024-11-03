@@ -25,7 +25,7 @@
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       text-align: center;
       position: relative;
-      height: 180px;
+      height: auto;
     }
 
     button,
@@ -126,32 +126,40 @@
 
     /* Flexbox-Container für die „Kann ich“ und „Kann ich nicht“ Buttons */
     #knowButtons {
-        display: flex;
-        gap: 10px; /* Abstand zwischen den Buttons */
-        justify-content: center; /* Zentriere die Buttons */
-        margin-top: 20px;
-      }
-      #knowButton, #dontKnowButton, #flipButton {
-        width: 45%; /* Breite der Buttons reduzieren, damit sie nebeneinander passen */
-        height: 4.5em;
-        padding: 10px;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 10px;
-        border: none;
-        background-color: #eee69d;
-        transition: background-color 0.3s;
-      }
-      #knowButton:hover, #dontKnowButton:hover {
-        background-color: #ebde6a;
-      }
-      #flipButton {
-        width: 93%;
-      }
-      #vocabulary {
-        font-size: 2.2em;
-      }
+      display: flex;
+      gap: 10px;
+      /* Abstand zwischen den Buttons */
+      justify-content: center;
+      /* Zentriere die Buttons */
+    }
 
+    #knowButton,
+    #dontKnowButton,
+    #flipButton {
+      width: 45%;
+      /* Breite der Buttons reduzieren, damit sie nebeneinander passen */
+      height: 4.5em;
+      padding: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 10px;
+      border: none;
+      background-color: #eee69d;
+      transition: background-color 0.3s;
+    }
+
+    #knowButton:hover,
+    #dontKnowButton:hover {
+      background-color: #ebde6a;
+    }
+
+    #flipButton {
+      width: 93%;
+    }
+
+    #vocabulary {
+      font-size: 2.2em;
+    }
   </style>
 </head>
 
@@ -212,7 +220,7 @@
       { deutsch: "Wasser", englisch: "water", score: 0 },
       { deutsch: "Tisch", englisch: "table", score: 0 },
     ];
-  
+
     let currentMode = "";
     let direction = "de-en";
     let currentVocab = null;
@@ -225,27 +233,27 @@
         endTraining();
       }
     }
-  
+
     function startTraining() {
       direction = document.getElementById("direction").value;
       currentMode = document.getElementById("mode").value;
       correctAnswers = 0;
       currentIndex = 0;
-  
+
       document.getElementById("settings").classList.add("hidden");
-  
+
       if (currentMode === "flashcard") {
         startFlashcardMode();
       } else if (currentMode === "multiple-choice") {
         startMultipleChoiceMode();
       }
     }
-  
+
     function startFlashcardMode() {
       document.getElementById("flashcard-mode").classList.remove("hidden");
       selectNextFlashcard();
     }
-  
+
     function selectNextFlashcard() {
       const totalScore = vocabularyList.reduce((acc, vocab) => acc + (10 - vocab.score), 0);
       let random = Math.random() * totalScore;
@@ -257,7 +265,7 @@
         }
       }
     }
-  
+
     function setFlashcard(vocab) {
       currentVocab = vocab;
       document.getElementById("vocabulary").innerText =
@@ -266,7 +274,7 @@
       document.getElementById("knowButton").classList.add("hidden");
       document.getElementById("dontKnowButton").classList.add("hidden");
     }
-  
+
     function flipCard() {
       document.getElementById("vocabulary").innerText =
         direction === "de-en" ? currentVocab.englisch : currentVocab.deutsch;
@@ -274,7 +282,7 @@
       document.getElementById("knowButton").classList.remove("hidden");
       document.getElementById("dontKnowButton").classList.remove("hidden");
     }
-  
+
     function markKnown(isKnown) {
       if (isKnown) {
         currentVocab.score = Math.min(currentVocab.score + 1, 10);
@@ -283,18 +291,18 @@
       }
       selectNextFlashcard();
     }
-  
+
     function startMultipleChoiceMode() {
       document.getElementById("multiple-choice-mode").classList.remove("hidden");
       initializeProgressBar();
       loadMultipleChoiceQuestion();
     }
-  
+
     function initializeProgressBar() {
       const progressContainer = document.getElementById("progress");
       progressContainer.innerHTML = "";
       progressSegments = [];
-  
+
       vocabularyList.forEach(() => {
         const segment = document.createElement("div");
         segment.classList.add("progress-segment");
@@ -302,31 +310,31 @@
         progressSegments.push(segment);
       });
     }
-  
+
     function loadMultipleChoiceQuestion() {
       if (currentIndex >= vocabularyList.length) {
         showResultDialog();
         return;
       }
-  
+
       const vocab = vocabularyList[currentIndex];
       const correctAnswer = direction === "de-en" ? vocab.englisch : vocab.deutsch;
       const questionText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
-  
+
       document.getElementById("question").innerText = questionText;
-  
+
       const choices = [correctAnswer];
       while (choices.length < 4) {
         const randomChoice =
           vocabularyList[Math.floor(Math.random() * vocabularyList.length)][
-            direction === "de-en" ? "englisch" : "deutsch"
+          direction === "de-en" ? "englisch" : "deutsch"
           ];
         if (!choices.includes(randomChoice)) {
           choices.push(randomChoice);
         }
       }
       choices.sort(() => Math.random() - 0.5);
-  
+
       document.getElementById("choices").innerHTML = choices
         .map(
           (choice) =>
@@ -334,7 +342,7 @@
         )
         .join("");
     }
-  
+
     function checkAnswer(button, selected, correct) {
       if (selected === correct) {
         button.classList.add("correct");
@@ -346,49 +354,49 @@
         playSound(440, 0.8);
         progressSegments[currentIndex].classList.add("progress-incorrect");
       }
-  
+
       setTimeout(() => {
         button.classList.remove("correct", "incorrect");
         currentIndex++;
         loadMultipleChoiceQuestion();
       }, 1000);
     }
-  
+
     function showResultDialog() {
       alert(
         `Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`
       );
       endTraining();
     }
-  
+
     function endTraining() {
       document.getElementById("settings").classList.remove("hidden");
       document.getElementById("flashcard-mode").classList.add("hidden");
       document.getElementById("multiple-choice-mode").classList.add("hidden");
     }
-  
+
     function playSound(frequency, duration) {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-  
+
       oscillator.type = "sine";
       oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-  
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-  
+
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
       gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.05);
-  
+
       oscillator.start(audioContext.currentTime);
       gainNode.gain.setValueAtTime(1, audioContext.currentTime + duration - 0.1);
       gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
-  
+
       oscillator.stop(audioContext.currentTime + duration);
     }
   </script>
-  
+
 </body>
 
 </html>
