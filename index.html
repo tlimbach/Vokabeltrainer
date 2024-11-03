@@ -146,7 +146,7 @@
         background-color: #ebde6a;
       }
       #flipButton {
-        width: 90%;
+        width: 93%;
       }
       #vocabulary {
         font-size: 2.2em;
@@ -201,80 +201,94 @@
 
   <script>
     const vocabularyList = [
-      { deutsch: "Apfel", englisch: "apple" },
-      { deutsch: "Haus", englisch: "house" },
-      { deutsch: "Buch", englisch: "book" },
-      { deutsch: "Stuhl", englisch: "chair" },
-      { deutsch: "Hund", englisch: "dog" },
-      { deutsch: "Katze", englisch: "cat" },
-      { deutsch: "Auto", englisch: "car" },
-      { deutsch: "Baum", englisch: "tree" },
-      { deutsch: "Wasser", englisch: "water" },
-      { deutsch: "Tisch", englisch: "table" },
+      { deutsch: "Apfel", englisch: "apple", score: 0 },
+      { deutsch: "Haus", englisch: "house", score: 0 },
+      { deutsch: "Buch", englisch: "book", score: 0 },
+      { deutsch: "Stuhl", englisch: "chair", score: 0 },
+      { deutsch: "Hund", englisch: "dog", score: 0 },
+      { deutsch: "Katze", englisch: "cat", score: 0 },
+      { deutsch: "Auto", englisch: "car", score: 0 },
+      { deutsch: "Baum", englisch: "tree", score: 0 },
+      { deutsch: "Wasser", englisch: "water", score: 0 },
+      { deutsch: "Tisch", englisch: "table", score: 0 },
     ];
-
+  
     let currentMode = "";
-    let currentIndex = 0;
     let direction = "de-en";
-    let progressSegments = [];
+    let currentVocab = null;
     let correctAnswers = 0;
-
+    let currentIndex = 0;
+    let progressSegments = [];
+  
     function startTraining() {
       direction = document.getElementById("direction").value;
       currentMode = document.getElementById("mode").value;
       correctAnswers = 0;
       currentIndex = 0;
-
+  
       document.getElementById("settings").classList.add("hidden");
-
+  
       if (currentMode === "flashcard") {
         startFlashcardMode();
       } else if (currentMode === "multiple-choice") {
         startMultipleChoiceMode();
       }
     }
-
+  
     function startFlashcardMode() {
       document.getElementById("flashcard-mode").classList.remove("hidden");
-      loadFlashcard();
+      selectNextFlashcard();
     }
-
-    function loadFlashcard() {
-      const vocab = vocabularyList[currentIndex];
+  
+    function selectNextFlashcard() {
+      const totalScore = vocabularyList.reduce((acc, vocab) => acc + (10 - vocab.score), 0);
+      let random = Math.random() * totalScore;
+      for (let vocab of vocabularyList) {
+        random -= (10 - vocab.score);
+        if (random <= 0) {
+          setFlashcard(vocab);
+          return;
+        }
+      }
+    }
+  
+    function setFlashcard(vocab) {
+      currentVocab = vocab;
       document.getElementById("vocabulary").innerText =
         direction === "de-en" ? vocab.deutsch : vocab.englisch;
       document.getElementById("flipButton").classList.remove("hidden");
       document.getElementById("knowButton").classList.add("hidden");
       document.getElementById("dontKnowButton").classList.add("hidden");
     }
-
+  
     function flipCard() {
-      const vocab = vocabularyList[currentIndex];
       document.getElementById("vocabulary").innerText =
-        direction === "de-en" ? vocab.englisch : vocab.deutsch;
+        direction === "de-en" ? currentVocab.englisch : currentVocab.deutsch;
       document.getElementById("flipButton").classList.add("hidden");
       document.getElementById("knowButton").classList.remove("hidden");
       document.getElementById("dontKnowButton").classList.remove("hidden");
     }
-
+  
     function markKnown(isKnown) {
-      currentIndex = (currentIndex + 1) % vocabularyList.length;
-      loadFlashcard();
+      if (isKnown) {
+        currentVocab.score = Math.min(currentVocab.score + 1, 10);
+      } else {
+        currentVocab.score = Math.max(currentVocab.score - 1, 0);
+      }
+      selectNextFlashcard();
     }
-
+  
     function startMultipleChoiceMode() {
-      document
-        .getElementById("multiple-choice-mode")
-        .classList.remove("hidden");
+      document.getElementById("multiple-choice-mode").classList.remove("hidden");
       initializeProgressBar();
       loadMultipleChoiceQuestion();
     }
-
+  
     function initializeProgressBar() {
       const progressContainer = document.getElementById("progress");
       progressContainer.innerHTML = "";
       progressSegments = [];
-
+  
       vocabularyList.forEach(() => {
         const segment = document.createElement("div");
         segment.classList.add("progress-segment");
@@ -282,33 +296,31 @@
         progressSegments.push(segment);
       });
     }
-
+  
     function loadMultipleChoiceQuestion() {
       if (currentIndex >= vocabularyList.length) {
         showResultDialog();
         return;
       }
-
+  
       const vocab = vocabularyList[currentIndex];
-      const correctAnswer =
-        direction === "de-en" ? vocab.englisch : vocab.deutsch;
-      const questionText =
-        direction === "de-en" ? vocab.deutsch : vocab.englisch;
-
+      const correctAnswer = direction === "de-en" ? vocab.englisch : vocab.deutsch;
+      const questionText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
+  
       document.getElementById("question").innerText = questionText;
-
+  
       const choices = [correctAnswer];
       while (choices.length < 4) {
         const randomChoice =
           vocabularyList[Math.floor(Math.random() * vocabularyList.length)][
-          direction === "de-en" ? "englisch" : "deutsch"
+            direction === "de-en" ? "englisch" : "deutsch"
           ];
         if (!choices.includes(randomChoice)) {
           choices.push(randomChoice);
         }
       }
       choices.sort(() => Math.random() - 0.5);
-
+  
       document.getElementById("choices").innerHTML = choices
         .map(
           (choice) =>
@@ -316,7 +328,7 @@
         )
         .join("");
     }
-
+  
     function checkAnswer(button, selected, correct) {
       if (selected === correct) {
         button.classList.add("correct");
@@ -328,64 +340,49 @@
         playSound(440, 0.8);
         progressSegments[currentIndex].classList.add("progress-incorrect");
       }
-
+  
       setTimeout(() => {
         button.classList.remove("correct", "incorrect");
         currentIndex++;
         loadMultipleChoiceQuestion();
       }, 1000);
     }
-
+  
     function showResultDialog() {
       alert(
         `Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`
       );
       endTraining();
     }
-
+  
     function endTraining() {
       document.getElementById("settings").classList.remove("hidden");
       document.getElementById("flashcard-mode").classList.add("hidden");
       document.getElementById("multiple-choice-mode").classList.add("hidden");
     }
-
+  
     function playSound(frequency, duration) {
-      const audioContext = new (window.AudioContext ||
-        window.webkitAudioContext)();
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain(); // Hinzufügen eines Gain-Nodes für die Lautstärkesteuerung
-
+      const gainNode = audioContext.createGain();
+  
       oscillator.type = "sine";
-      oscillator.frequency.setValueAtTime(
-        frequency,
-        audioContext.currentTime
-      );
-
-      // Verbinden des Oscillators mit dem GainNode und dann mit dem Ziel (den Lautsprechern)
+      oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+  
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-
-      // Sanfte Attack-Phase
+  
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(
-        1,
-        audioContext.currentTime + 0.05
-      ); // 50ms Attack
-
-      // Ton abspielen und sanft beenden
+      gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.05);
+  
       oscillator.start(audioContext.currentTime);
-      gainNode.gain.setValueAtTime(
-        1,
-        audioContext.currentTime + duration - 0.1
-      ); // Halte Lautstärke für die Dauer des Tons
-      gainNode.gain.linearRampToValueAtTime(
-        0,
-        audioContext.currentTime + duration
-      ); // Release von 100ms
-
-      oscillator.stop(audioContext.currentTime + duration); // Beendet den Ton nach der angegebenen Dauer
+      gainNode.gain.setValueAtTime(1, audioContext.currentTime + duration - 0.1);
+      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
+  
+      oscillator.stop(audioContext.currentTime + duration);
     }
   </script>
+  
 </body>
 
 </html>
