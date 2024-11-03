@@ -13,6 +13,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            flex-direction: column;
         }
         #container {
             width: 350px;
@@ -78,26 +79,25 @@
             background-color: #4CAF50 !important; /* Grün für richtige Antwort */
             color: white;
         }
-
         #choices button.incorrect {
             background-color: #f44336 !important; /* Rot für falsche Antwort */
             color: white;
         }
-        /* Positionierung des Abbrechen-Buttons */
+        /* Abbrechen-Button deutlich kleiner und unterhalb des Containers */
         #abortButton {
-            margin-top: 100px;
-            margin-left: 100px;
-            padding: 10px 20px;
-            font-size: 1rem;
+            margin-top: 10px;
+            padding: 5px 15px;
+            font-size: 0.8rem;
             cursor: pointer;
             background-color: #b7b7b7;
             color: rgb(9, 5, 5);
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             transition: background-color 0.3s;
+            width: auto; /* automatische Breite basierend auf dem Inhalt */
         }
         #abortButton:hover {
-            background-color: #e53935;
+            background-color: #d5d5d5;
         }
     </style>
 </head>
@@ -126,7 +126,6 @@
             <button id="flipButton" onclick="flipCard()">Karte umdrehen</button>
             <button id="knowButton" class="hidden" onclick="markKnown(true)">Kann ich</button>
             <button id="dontKnowButton" class="hidden" onclick="markKnown(false)">Kann ich nicht</button>
-            <button onclick="endTraining()">Abbrechen</button>
         </div>
 
         <!-- Multiple-Choice-Modus -->
@@ -134,9 +133,11 @@
             <div id="progress"></div>
             <p id="question"></p>
             <div id="choices"></div>
-            <button id="abortButton" onclick="endTraining()">Abbrechen</button>
         </div>
     </div>
+
+    <!-- Abbrechen-Button unterhalb des Containers -->
+    <button id="abortButton" onclick="endTraining()">Abbrechen</button>
 
     <script>
         const vocabularyList = [
@@ -236,8 +237,6 @@
             ).join("");
         }
 
-
-
         function checkAnswer(button, selected, correct) {
             if (selected === correct) {
                 button.classList.add("correct");
@@ -257,8 +256,6 @@
             }, 1000);
         }
 
-
-
         function endTraining() {
             if (confirm("Möchten Sie wirklich abbrechen?")) {
                 document.getElementById("settings").classList.remove("hidden");
@@ -266,6 +263,7 @@
                 document.getElementById("multiple-choice-mode").classList.add("hidden");
             }
         }
+
         function playSound(frequency, duration) {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
@@ -273,7 +271,7 @@
             oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime); // Frequenz einstellen
             oscillator.connect(audioContext.destination);
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + duration); // Spielt Ton für 0,2 Sekunden
+            oscillator.stop(audioContext.currentTime + duration); // Spielt Ton für bestimmte Dauer
         }
     </script>
 </body>
