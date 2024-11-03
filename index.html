@@ -196,7 +196,7 @@
     </div>
 
     <!-- Abbrechen-Button rechtsbündig unter dem Container -->
-    <button id="abortButton" onclick="endTraining()">Abbrechen</button>
+    <button id="abortButton" onclick="confirmEndTraining()">Abbrechen</button>
   </div>
 
   <script>
@@ -219,6 +219,12 @@
     let correctAnswers = 0;
     let currentIndex = 0;
     let progressSegments = [];
+
+    function confirmEndTraining() {
+      if (confirm("Möchten Sie das Training wirklich abbrechen?")) {
+        endTraining();
+      }
+    }
   
     function startTraining() {
       direction = document.getElementById("direction").value;
