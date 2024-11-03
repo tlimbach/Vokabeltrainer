@@ -15,7 +15,7 @@
             background-color: #f0f0f0;
         }
         #container {
-            width: 300px;
+            width: 350px;
             background-color: white;
             padding: 20px;
             border-radius: 8px;
@@ -30,6 +30,45 @@
         }
         .hidden {
             display: none;
+        }
+        /* Spezielles Styling für Multiple-Choice-Buttons */
+        #choices {
+            display: grid;
+            grid-template-columns: 150px 150px;
+            grid-template-rows: 150px 150px;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        #choices button {
+            width: 150px;
+            height: 150px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        #choices button:hover {
+            background-color: #45a049;
+        }
+        /* Positionierung des Abbrechen-Buttons */
+        #abortButton {
+            margin-top: 100px;
+            margin-left: 100px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        #abortButton:hover {
+            background-color: #e53935;
         }
     </style>
 </head>
@@ -66,7 +105,7 @@
         <div id="multiple-choice-mode" class="hidden">
             <p id="question"></p>
             <div id="choices"></div>
-            <button onclick="endTraining()">Abbrechen</button>
+            <button id="abortButton" onclick="endTraining()">Abbrechen</button>
         </div>
     </div>
 
