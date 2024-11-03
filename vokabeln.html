@@ -18,30 +18,29 @@
         #container {
             width: 350px;
             background-color: white;
-            padding: 30px 20px; /* Mehr Padding */
+            padding: 30px 20px;
             border-radius: 8px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
             position: relative;
         }
         button, select {
-            margin-top: 15px; /* Abstand zwischen den Elementen vergrößert */
+            margin-top: 15px;
             padding: 10px;
             width: 100%;
             font-size: 1rem;
         }
         label {
             display: block;
-            margin-top: 10px; /* Abstand für Labels vergrößert */
+            margin-top: 10px;
             font-weight: bold;
         }
         .hidden {
             display: none;
         }
-        /* Fortschrittsanzeige */
         #progress {
             display: flex;
-            margin-top: 20px; /* Größerer Abstand zur Fortschrittsanzeige */
+            margin-top: 20px;
             height: 20px;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -52,17 +51,16 @@
             background-color: #ddd;
         }
         .progress-correct {
-            background-color: #4CAF50; /* grün */
+            background-color: #4CAF50;
         }
         .progress-incorrect {
-            background-color: #f44336; /* rot */
+            background-color: #f44336;
         }
-        /* Spezielles Styling für Multiple-Choice-Buttons */
         #choices {
             display: grid;
             grid-template-columns: 150px 150px;
             grid-template-rows: 150px 150px;
-            gap: 15px; /* Mehr Abstand zwischen den Buttons */
+            gap: 15px;
             justify-content: center;
             margin-top: 20px;
         }
@@ -80,16 +78,14 @@
         #choices button:hover {
             background-color: #ebde6a;
         }
-        /* CSS für korrekte und falsche Antwortbuttons */
         #choices button.correct {
-            background-color: #4CAF50 !important; /* Grün für richtige Antwort */
+            background-color: #4CAF50 !important;
             color: white;
         }
         #choices button.incorrect {
-            background-color: #f44336 !important; /* Rot für falsche Antwort */
+            background-color: #f44336 !important;
             color: white;
         }
-        /* Abbrechen-Button deutlich kleiner und rechtsbündig unter dem Container */
         #abortButton {
             margin-top: 20px;
             padding: 5px 15px;
@@ -100,10 +96,10 @@
             border: none;
             border-radius: 4px;
             transition: background-color 0.3s;
-            width: auto; /* automatische Breite basierend auf dem Inhalt */
+            width: auto;
             position: absolute;
-            bottom: -40px; /* Abstand unterhalb des Containers */
-            right: 20px; /* rechtsbündig am Container */
+            bottom: -40px;
+            right: 20px;
         }
         #abortButton:hover {
             background-color: #d5d5d5;
@@ -166,10 +162,13 @@
         let currentIndex = 0;
         let direction = "de-en";
         let progressSegments = [];
+        let correctAnswers = 0;
 
         function startTraining() {
             direction = document.getElementById("direction").value;
             currentMode = document.getElementById("mode").value;
+            correctAnswers = 0;
+            currentIndex = 0;
 
             document.getElementById("settings").classList.add("hidden");
             
@@ -226,6 +225,11 @@
         }
 
         function loadMultipleChoiceQuestion() {
+            if (currentIndex >= vocabularyList.length) {
+                showResultDialog();
+                return;
+            }
+
             const vocab = vocabularyList[currentIndex];
             const correctAnswer = direction === "de-en" ? vocab.englisch : vocab.deutsch;
             const questionText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
@@ -249,38 +253,41 @@
         function checkAnswer(button, selected, correct) {
             if (selected === correct) {
                 button.classList.add("correct");
-                playSound(880, 0.2);  // Hoher Ton (880 Hz) für richtige Antwort
+                playSound(880, 0.2); 
                 progressSegments[currentIndex].classList.add("progress-correct");
+                correctAnswers++;
             } else {
                 button.classList.add("incorrect");
-                playSound(440, 0.8);  // Tiefer Ton (440 Hz) für falsche Antwort
+                playSound(440, 0.8);
                 progressSegments[currentIndex].classList.add("progress-incorrect");
             }
 
-            // Hintergrundfarbe nach 1 Sekunde zurücksetzen und nächste Frage laden
             setTimeout(() => {
                 button.classList.remove("correct", "incorrect");
-                currentIndex = (currentIndex + 1) % vocabularyList.length;
+                currentIndex++;
                 loadMultipleChoiceQuestion();
             }, 1000);
         }
 
+        function showResultDialog() {
+            alert(`Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`);
+            endTraining();
+        }
+
         function endTraining() {
-            if (confirm("Möchten Sie wirklich abbrechen?")) {
-                document.getElementById("settings").classList.remove("hidden");
-                document.getElementById("flashcard-mode").classList.add("hidden");
-                document.getElementById("multiple-choice-mode").classList.add("hidden");
-            }
+            document.getElementById("settings").classList.remove("hidden");
+            document.getElementById("flashcard-mode").classList.add("hidden");
+            document.getElementById("multiple-choice-mode").classList.add("hidden");
         }
 
         function playSound(frequency, duration) {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime); // Frequenz einstellen
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
             oscillator.connect(audioContext.destination);
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + duration); // Spielt Ton für bestimmte Dauer
+            oscillator.stop(audioContext.currentTime + duration);
         }
     </script>
 </body>
