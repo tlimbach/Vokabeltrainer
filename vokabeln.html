@@ -22,6 +22,7 @@
             border-radius: 8px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
+            position: relative;
         }
         button, select {
             margin-top: 10px;
@@ -83,7 +84,7 @@
             background-color: #f44336 !important; /* Rot für falsche Antwort */
             color: white;
         }
-        /* Abbrechen-Button deutlich kleiner und unterhalb des Containers */
+        /* Abbrechen-Button deutlich kleiner und rechtsbündig unter dem Container */
         #abortButton {
             margin-top: 10px;
             padding: 5px 15px;
@@ -95,6 +96,9 @@
             border-radius: 4px;
             transition: background-color 0.3s;
             width: auto; /* automatische Breite basierend auf dem Inhalt */
+            position: absolute;
+            bottom: -40px; /* Abstand unterhalb des Containers */
+            right: 20px; /* rechtsbündig am Container */
         }
         #abortButton:hover {
             background-color: #d5d5d5;
@@ -134,10 +138,10 @@
             <p id="question"></p>
             <div id="choices"></div>
         </div>
-    </div>
 
-    <!-- Abbrechen-Button unterhalb des Containers -->
-    <button id="abortButton" onclick="endTraining()">Abbrechen</button>
+        <!-- Abbrechen-Button rechtsbündig unter dem Container -->
+        <button id="abortButton" onclick="endTraining()">Abbrechen</button>
+    </div>
 
     <script>
         const vocabularyList = [
