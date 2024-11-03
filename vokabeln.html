@@ -222,21 +222,27 @@
             choices.sort(() => Math.random() - 0.5);
 
             document.getElementById("choices").innerHTML = choices.map(choice =>
-                `<button onclick="checkAnswer('${choice}', '${correctAnswer}')">${choice}</button>`
+                `<button onclick="checkAnswer(this, '${choice}', '${correctAnswer}')">${choice}</button>`
             ).join("");
         }
 
-        function checkAnswer(selected, correct) {
+        function checkAnswer(button, selected, correct) {
             if (selected === correct) {
-                alert("Richtig!");
+                button.classList.add("correct");
+                playSound(880);  // Hoher Ton (z. B. 880 Hz) für richtige Antwort
                 progressSegments[currentIndex].classList.add("progress-correct");
             } else {
-                alert("Falsch!");
+                button.classList.add("incorrect");
+                playSound(440);  // Tiefer Ton (z. B. 440 Hz) für falsche Antwort
                 progressSegments[currentIndex].classList.add("progress-incorrect");
             }
-            currentIndex = (currentIndex + 1) % vocabularyList.length;
-            loadMultipleChoiceQuestion();
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % vocabularyList.length;
+                loadMultipleChoiceQuestion();
+            }, 1000);
         }
+
 
         function endTraining() {
             if (confirm("Möchten Sie wirklich abbrechen?")) {
@@ -244,6 +250,15 @@
                 document.getElementById("flashcard-mode").classList.add("hidden");
                 document.getElementById("multiple-choice-mode").classList.add("hidden");
             }
+        }
+        function playSound(frequency) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime); // Frequenz einstellen
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.2); // Spielt Ton für 0,2 Sekunden
         }
     </script>
 </body>
