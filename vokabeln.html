@@ -18,17 +18,22 @@
         #container {
             width: 350px;
             background-color: white;
-            padding: 20px;
+            padding: 30px 20px; /* Mehr Padding */
             border-radius: 8px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
             position: relative;
         }
         button, select {
-            margin-top: 10px;
+            margin-top: 15px; /* Abstand zwischen den Elementen vergrößert */
             padding: 10px;
             width: 100%;
             font-size: 1rem;
+        }
+        label {
+            display: block;
+            margin-top: 10px; /* Abstand für Labels vergrößert */
+            font-weight: bold;
         }
         .hidden {
             display: none;
@@ -36,7 +41,7 @@
         /* Fortschrittsanzeige */
         #progress {
             display: flex;
-            margin-top: 10px;
+            margin-top: 20px; /* Größerer Abstand zur Fortschrittsanzeige */
             height: 20px;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -57,7 +62,7 @@
             display: grid;
             grid-template-columns: 150px 150px;
             grid-template-rows: 150px 150px;
-            gap: 10px;
+            gap: 15px; /* Mehr Abstand zwischen den Buttons */
             justify-content: center;
             margin-top: 20px;
         }
@@ -86,7 +91,7 @@
         }
         /* Abbrechen-Button deutlich kleiner und rechtsbündig unter dem Container */
         #abortButton {
-            margin-top: 10px;
+            margin-top: 20px;
             padding: 5px 15px;
             font-size: 0.8rem;
             cursor: pointer;
