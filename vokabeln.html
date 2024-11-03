@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabeltrainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            width: 300px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        button, select {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            font-size: 1rem;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Vokabeltrainer</h2>
+        <!-- Einstellungen -->
+        <div id="settings">
+            <label for="direction">Übersetzungsrichtung:</label>
+            <select id="direction">
+                <option value="de-en">Deutsch -> Englisch</option>
+                <option value="en-de">Englisch -> Deutsch</option>
+            </select>
+
+            <label for="mode">Übungsmodus:</label>
+            <select id="mode">
+                <option value="flashcard">Karteikarten</option>
+                <option value="multiple-choice">Multiple Choice</option>
+            </select>
+
+            <button onclick="startTraining()">Start</button>
+        </div>
+
+        <!-- Karteikarten-Modus -->
+        <div id="flashcard-mode" class="hidden">
+            <p id="vocabulary"></p>
+            <button id="flipButton" onclick="flipCard()">Karte umdrehen</button>
+            <button id="knowButton" class="hidden" onclick="markKnown(true)">Kann ich</button>
+            <button id="dontKnowButton" class="hidden" onclick="markKnown(false)">Kann ich nicht</button>
+            <button onclick="endTraining()">Abbrechen</button>
+        </div>
+
+        <!-- Multiple-Choice-Modus -->
+        <div id="multiple-choice-mode" class="hidden">
+            <p id="question"></p>
+            <div id="choices"></div>
+            <button onclick="endTraining()">Abbrechen</button>
+        </div>
+    </div>
+
+    <script>
+        const vocabularyList = [
+            { "deutsch": "Apfel", "englisch": "apple" },
+            { "deutsch": "Haus", "englisch": "house" },
+            { "deutsch": "Buch", "englisch": "book" },
+            { "deutsch": "Stuhl", "englisch": "chair" },
+            { "deutsch": "Hund", "englisch": "dog" },
+            { "deutsch": "Katze", "englisch": "cat" },
+            { "deutsch": "Auto", "englisch": "car" },
+            { "deutsch": "Baum", "englisch": "tree" },
+            { "deutsch": "Wasser", "englisch": "water" },
+            { "deutsch": "Tisch", "englisch": "table" }
+        ];
+        
+        let currentMode = "";
+        let currentIndex = 0;
+        let direction = "de-en";
+
+        function startTraining() {
+            direction = document.getElementById("direction").value;
+            currentMode = document.getElementById("mode").value;
+
+            document.getElementById("settings").classList.add("hidden");
+            
+            if (currentMode === "flashcard") {
+                startFlashcardMode();
+            } else if (currentMode === "multiple-choice") {
+                startMultipleChoiceMode();
+            }
+        }
+
+        function startFlashcardMode() {
+            document.getElementById("flashcard-mode").classList.remove("hidden");
+            loadFlashcard();
+        }
+
+        function loadFlashcard() {
+            const vocab = vocabularyList[currentIndex];
+            document.getElementById("vocabulary").innerText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
+            document.getElementById("flipButton").classList.remove("hidden");
+            document.getElementById("knowButton").classList.add("hidden");
+            document.getElementById("dontKnowButton").classList.add("hidden");
+        }
+
+        function flipCard() {
+            const vocab = vocabularyList[currentIndex];
+            document.getElementById("vocabulary").innerText = direction === "de-en" ? vocab.englisch : vocab.deutsch;
+            document.getElementById("flipButton").classList.add("hidden");
+            document.getElementById("knowButton").classList.remove("hidden");
+            document.getElementById("dontKnowButton").classList.remove("hidden");
+        }
+
+        function markKnown(isKnown) {
+            currentIndex = (currentIndex + 1) % vocabularyList.length;
+            loadFlashcard();
+        }
+
+        function startMultipleChoiceMode() {
+            document.getElementById("multiple-choice-mode").classList.remove("hidden");
+            loadMultipleChoiceQuestion();
+        }
+
+        function loadMultipleChoiceQuestion() {
+            const vocab = vocabularyList[currentIndex];
+            const correctAnswer = direction === "de-en" ? vocab.englisch : vocab.deutsch;
+            const questionText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
+
+            document.getElementById("question").innerText = questionText;
+
+            const choices = [correctAnswer];
+            while (choices.length < 4) {
+                const randomChoice = vocabularyList[Math.floor(Math.random() * vocabularyList.length)][direction === "de-en" ? "englisch" : "deutsch"];
+                if (!choices.includes(randomChoice)) {
+                    choices.push(randomChoice);
+                }
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            document.getElementById("choices").innerHTML = choices.map(choice =>
+                `<button onclick="checkAnswer('${choice}', '${correctAnswer}')">${choice}</button>`
+            ).join("");
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                alert("Richtig!");
+            } else {
+                alert("Falsch!");
+            }
+            currentIndex = (currentIndex + 1) % vocabularyList.length;
+            loadMultipleChoiceQuestion();
+        }
+
+        function endTraining() {
+            if (confirm("Möchten Sie wirklich abbrechen?")) {
+                document.getElementById("settings").classList.remove("hidden");
+                document.getElementById("flashcard-mode").classList.add("hidden");
+                document.getElementById("multiple-choice-mode").classList.add("hidden");
+            }
+        }
+    </script>
+</body>
+</html>
