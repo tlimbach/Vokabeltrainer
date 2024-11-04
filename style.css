@@ -152,6 +152,11 @@ body {
     height:120px;
   }
 
+  #question {
+    display: grid;
+    place-items: center;
+  }
+
   .large-text {
     padding: 15px;
   }
