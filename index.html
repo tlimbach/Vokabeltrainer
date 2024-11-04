@@ -240,10 +240,25 @@
         .trim()
         .split("\n")
         .map(line => {
-          const [deutsch, englisch] = line.split(" - ").map(word => word.trim());
-          return { deutsch, englisch, score: 0 };
-        });
+          // Trennen Sie die Zeile am ersten Bindestrich, um `deutsch` und `englisch` zu erhalten
+          const parts = line.split(" - ");
+          if (parts.length === 2) { // Nur wenn exakt ein Bindestrich vorhanden ist
+            const deutsch = parts[0].trim();
+            const englisch = parts[1].trim();
+            return { deutsch, englisch, score: 0 };
+          } else {
+            console.warn("Zeile konnte nicht korrekt geparst werden:", line);
+            return null; // Ignorieren der Zeile, wenn das Format nicht passt
+          }
+        })
+        .filter(entry => entry !== null); // Entfernen aller ungültigen Einträge
+
+      console.log("Vokabelliste:", vocabularyList);
     }
+
+
+
+
 
     function confirmEndTraining() {
       if (confirm("Möchten Sie das Training wirklich abbrechen?")) {
@@ -355,13 +370,17 @@
       }
       choices.sort(() => Math.random() - 0.5);
 
-      document.getElementById("choices").innerHTML = choices
-        .map(
-          (choice) =>
-            `<button onclick="checkAnswer(this, '${choice}', '${correctAnswer}')">${choice}</button>`
-        )
-        .join("");
+      const choicesContainer = document.getElementById("choices");
+      choicesContainer.innerHTML = ""; // Leeren des Containers
+
+      choices.forEach(choice => {
+        const button = document.createElement("button");
+        button.textContent = choice; // Text wird unverändert angezeigt
+        button.addEventListener("click", () => checkAnswer(button, choice, correctAnswer));
+        choicesContainer.appendChild(button);
+      });
     }
+
 
     function checkAnswer(button, selected, correct) {
       if (selected === correct) {
