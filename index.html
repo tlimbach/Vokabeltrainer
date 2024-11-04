@@ -157,14 +157,22 @@
       width: 93%;
     }
 
-    #vocabulary, #question {
+    #vocabulary,
+    #question {
       font-size: 2.2em;
     }
 
     #choices button {
-     font-size: 1.5rem; /* Größerer Text */
+      font-size: 32px !important;
+      /* Größerer Text */
     }
 
+    .large-text {
+      font-size: 62px !important;
+      /* Vergrößert die Schriftgröße für alle Optionen */
+      padding: 15px;
+      /* Optional: fügt etwas Innenabstand hinzu */
+    }
   </style>
 </head>
 
@@ -173,13 +181,13 @@
     <!-- Einstellungen -->
     <div id="settings">
       <label for="direction">Übersetzungsrichtung:</label>
-      <select id="direction">
+      <select id="direction" class="large-text">
         <option value="de-en">Deutsch -> Englisch</option>
         <option value="en-de">Englisch -> Deutsch</option>
       </select>
 
       <label for="mode">Übungsmodus:</label>
-      <select id="mode">
+      <select id="mode" class="large-text">
         <option value="flashcard">Karteikarten</option>
         <option value="multiple-choice">Multiple Choice</option>
       </select>
