@@ -155,6 +155,8 @@ body {
   #question {
     display: grid;
     place-items: center;
+    margin: 20px;
+    padding: 10px;
   }
 
   .large-text {
