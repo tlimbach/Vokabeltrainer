@@ -93,16 +93,6 @@
       background-color: #ebde6a;
     }
 
-    #choices button.correct {
-      background-color: #4caf50 !important;
-      color: white;
-    }
-
-    #choices button.incorrect {
-      background-color: #f44336 !important;
-      color: white;
-    }
-
     #abortButton {
       margin-top: 20px;
       padding: 5px 15px;
@@ -111,33 +101,28 @@
       background-color: #b7b7b7;
       color: rgb(9, 5, 5);
       border: none;
-      border-radius: 4px;
-      transition: background-color 0.3s;
       width: auto;
       position: absolute;
       bottom: -40px;
       right: 20px;
       border-radius: 4px;
+      transition: background-color 0.3s;
     }
 
     #abortButton:hover {
       background-color: #d5d5d5;
     }
 
-    /* Flexbox-Container für die „Kann ich“ und „Kann ich nicht“ Buttons */
     #knowButtons {
       display: flex;
       gap: 10px;
-      /* Abstand zwischen den Buttons */
       justify-content: center;
-      /* Zentriere die Buttons */
     }
 
     #knowButton,
     #dontKnowButton,
     #flipButton {
       width: 45%;
-      /* Breite der Buttons reduzieren, damit sie nebeneinander passen */
       height: 4.5em;
       padding: 10px;
       font-size: 1rem;
@@ -162,22 +147,20 @@
       font-size: 2.2em;
     }
 
-    #choices button {
-      font-size: 32px !important;
-      /* Größerer Text */
-    }
-
     .large-text {
       font-size: 62px !important;
-      /* Vergrößert die Schriftgröße für alle Optionen */
       padding: 15px;
-      /* Optional: fügt etwas Innenabstand hinzu */
     }
   </style>
 </head>
 
 <body>
   <div id="container">
+    <!-- Vokabelset auswählen Button -->
+    <div id="fileselect">
+      <button onclick="selectVocabularyFile()">Vokabelset auswählen</button>
+      <input type="file" id="fileInput" class="hidden" accept=".txt" />
+    </div>
     <!-- Einstellungen -->
     <div id="settings">
       <label for="direction">Übersetzungsrichtung:</label>
@@ -200,12 +183,8 @@
       <p id="vocabulary"></p>
       <button id="flipButton" onclick="flipCard()">Karte umdrehen</button>
       <div id="knowButtons">
-        <button id="knowButton" class="hidden" onclick="markKnown(true)">
-          Kann ich
-        </button>
-        <button id="dontKnowButton" class="hidden" onclick="markKnown(false)">
-          Kann ich nicht
-        </button>
+        <button id="knowButton" class="hidden" onclick="markKnown(true)">Kann ich</button>
+        <button id="dontKnowButton" class="hidden" onclick="markKnown(false)">Kann ich nicht</button>
       </div>
     </div>
 
@@ -216,30 +195,45 @@
       <div id="choices"></div>
     </div>
 
-    <!-- Abbrechen-Button rechtsbündig unter dem Container -->
-    <button id="abortButton" onclick="confirmEndTraining()">Abbrechen</button>
+    <!-- Abbrechen-Button -->
+    <button id="abortButton" onclick="confirmEndTraining()" class="hidden">Abbrechen</button>
   </div>
 
   <script>
-    const vocabularyList = [
-      { deutsch: "Apfel", englisch: "apple", score: 0 },
-      { deutsch: "Haus", englisch: "house", score: 0 },
-      { deutsch: "Buch", englisch: "book", score: 0 },
-      { deutsch: "Stuhl", englisch: "chair", score: 0 },
-      { deutsch: "Hund", englisch: "dog", score: 0 },
-      { deutsch: "Katze", englisch: "cat", score: 0 },
-      { deutsch: "Auto", englisch: "car", score: 0 },
-      { deutsch: "Baum", englisch: "tree", score: 0 },
-      { deutsch: "Wasser", englisch: "water", score: 0 },
-      { deutsch: "Tisch", englisch: "table", score: 0 },
-    ];
-
+    let vocabularyList = [];
     let currentMode = "";
     let direction = "de-en";
     let currentVocab = null;
     let correctAnswers = 0;
     let currentIndex = 0;
     let progressSegments = [];
+
+    function selectVocabularyFile() {
+      document.getElementById("fileInput").click();
+    }
+
+    document.getElementById("fileInput").addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result;
+          parseVocabulary(content);
+          document.getElementById("settings").classList.remove("hidden");
+        };
+        reader.readAsText(file);
+      }
+    });
+
+    function parseVocabulary(content) {
+      vocabularyList = content
+        .trim()
+        .split("\n")
+        .map(line => {
+          const [deutsch, englisch] = line.split(" - ").map(word => word.trim());
+          return { deutsch, englisch, score: 0 };
+        });
+    }
 
     function confirmEndTraining() {
       if (confirm("Möchten Sie das Training wirklich abbrechen?")) {
@@ -248,12 +242,15 @@
     }
 
     function startTraining() {
+      document.getElementById("fileselect").classList.add("hidden");
+
       direction = document.getElementById("direction").value;
       currentMode = document.getElementById("mode").value;
       correctAnswers = 0;
       currentIndex = 0;
 
       document.getElementById("settings").classList.add("hidden");
+      document.getElementById("abortButton").classList.remove("hidden");
 
       if (currentMode === "flashcard") {
         startFlashcardMode();
@@ -359,12 +356,10 @@
     function checkAnswer(button, selected, correct) {
       if (selected === correct) {
         button.classList.add("correct");
-        playSound(880, 0.2);
         progressSegments[currentIndex].classList.add("progress-correct");
         correctAnswers++;
       } else {
         button.classList.add("incorrect");
-        playSound(240, 0.8);
         progressSegments[currentIndex].classList.add("progress-incorrect");
       }
 
@@ -383,33 +378,13 @@
     }
 
     function endTraining() {
+      document.getElementById("abortButton").classList.remove("hidden");
       document.getElementById("settings").classList.remove("hidden");
       document.getElementById("flashcard-mode").classList.add("hidden");
       document.getElementById("multiple-choice-mode").classList.add("hidden");
-    }
-
-    function playSound(frequency, duration) {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-
-      oscillator.type = "sine";
-      oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-
-      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.05);
-
-      oscillator.start(audioContext.currentTime);
-      gainNode.gain.setValueAtTime(1, audioContext.currentTime + duration - 0.1);
-      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
-
-      oscillator.stop(audioContext.currentTime + duration);
+      document.getElementById("fileselect".classList.remove("hidden"))
     }
   </script>
-
 </body>
 
 </html>
