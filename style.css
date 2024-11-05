@@ -205,7 +205,7 @@ label {
   #choices button {
       width: 100%; /* Buttons füllen die Breite */
       height: 80px; /* Kleinere Höhe für kleine Bildschirme */
-      font-size: 1.2em; /* Kleinere Schriftgröße */
+      font-size: 1.6em; /* Kleinere Schriftgröße */
   }
 
   #question, #vocabulary {
