@@ -34,7 +34,7 @@ document.getElementById("fileInput").addEventListener("change", function (event)
       document.getElementById("settings").classList.remove("hidden");
     };
     reader.readAsText(file);
-  }else {
+  } else {
     vocabularyList = defaultVocabulary;
   }
 });
@@ -111,13 +111,13 @@ function selectNextFlashcard() {
 
 function setFlashcard(vocab) {
   currentVocab = vocab;
-  
+
   // Extrahiere den anzuzeigenden Text in eine eigene Variable
   let displayText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
-  
+
   // Setze den Text im Element "vocabulary"
   document.getElementById("vocabulary").innerText = displayText;
-  
+
   // Prüfe die Länge des Textes und passe die Schriftgröße an
   if (displayText.length > 15) {
     document.getElementById("vocabulary").style.fontSize = "1.6em";
@@ -185,7 +185,7 @@ function loadMultipleChoiceQuestion() {
   while (choices.length < 4) {
     const randomChoice =
       vocabularyList[Math.floor(Math.random() * vocabularyList.length)][
-        direction === "de-en" ? "englisch" : "deutsch"
+      direction === "de-en" ? "englisch" : "deutsch"
       ];
     if (!choices.includes(randomChoice)) {
       choices.push(randomChoice);
@@ -200,12 +200,17 @@ function loadMultipleChoiceQuestion() {
     const button = document.createElement("button");
     button.textContent = choice; // Text wird unverändert angezeigt
 
+    console.log("CHougn " + choice  +" len = "+ choice.length);
+
     // Anpassung der Schriftgröße bei langen Wörtern
-    if (choice.length > 15) {
+    if (choice.length > 40) {
+      button.style.fontSize = "0.9em";
+    } else if (choice.length > 15) {
       button.style.fontSize = "1.3em";
     } else {
       button.style.fontSize = ""; // Standardgröße zurücksetzen
     }
+    
 
     // Speichern des Buttons, falls es die korrekte Antwort ist
     if (choice === correctAnswer) {
@@ -228,7 +233,7 @@ function checkAnswer(button, selected, correct, correctButton) {
     correctAnswers++;
   } else {
     incorrect = true;
-     // Markiere den correctButton, um ihn hervorzuheben
+    // Markiere den correctButton, um ihn hervorzuheben
     correctButton.classList.add("highlight");
     button.classList.add("incorrect");
     progressSegments[currentIndex].classList.add("progress-incorrect");
@@ -237,7 +242,7 @@ function checkAnswer(button, selected, correct, correctButton) {
     setTimeout(() => {
       button.classList.remove("correct", "incorrect");
     }, 500);
-    
+
   }
 
   // Entferne die Markierungen nach 1 Sekunde und lade die nächste Frage
