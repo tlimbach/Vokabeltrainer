@@ -6,6 +6,20 @@ let correctAnswers = 0;
 let currentIndex = 0;
 let progressSegments = [];
 
+// Standard-Vokabelliste, falls keine Datei geladen wird
+const defaultVocabulary = [
+  { deutsch: "Apfel", englisch: "apple", score: 0 },
+  { deutsch: "Haus", englisch: "house", score: 0 },
+  { deutsch: "Tisch", englisch: "table", score: 0 },
+  { deutsch: "Buch", englisch: "book", score: 0 },
+  { deutsch: "Stuhl", englisch: "chair", score: 0 },
+  { deutsch: "Hund", englisch: "dog", score: 0 },
+  { deutsch: "Katze", englisch: "cat", score: 0 },
+  { deutsch: "Schule", englisch: "school", score: 0 },
+  { deutsch: "Baum", englisch: "tree", score: 0 },
+  { deutsch: "Auto", englisch: "car", score: 0 }
+];
+
 function selectVocabularyFile() {
   document.getElementById("fileInput").click();
 }
@@ -20,6 +34,8 @@ document.getElementById("fileInput").addEventListener("change", function (event)
       document.getElementById("settings").classList.remove("hidden");
     };
     reader.readAsText(file);
+  }else {
+    vocabularyList = defaultVocabulary;
   }
 });
 
@@ -45,9 +61,6 @@ function parseVocabulary(content) {
 }
 
 
-
-
-
 function confirmEndTraining() {
   if (confirm("Möchten Sie das Training wirklich abbrechen?")) {
     endTraining();
@@ -55,6 +68,12 @@ function confirmEndTraining() {
 }
 
 function startTraining() {
+
+  if (vocabularyList.length === 0) {
+    vocabularyList = defaultVocabulary;
+    console.log("Standard-Vokabelliste geladen:", vocabularyList);
+  }
+
   document.getElementById("fileselect").classList.add("hidden");
 
   direction = document.getElementById("direction").value;
