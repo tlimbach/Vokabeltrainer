@@ -1,165 +1,202 @@
+/* Basis-Stile für größere Bildschirme (Standard) */
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-    flex-direction: column;
-  }
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+  flex-direction: column;
+}
 
+#container {
+  width: 450px;
+  background-color: white;
+  padding: 12px 20px 50px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  height: auto;
+}
+
+button,
+select {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  font-size: 1rem;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+#progress {
+  display: flex;
+  margin-top: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-segment {
+  flex: 1;
+  background-color: #ddd;
+}
+
+.progress-correct {
+  background-color: #5cd360;
+}
+
+.progress-incorrect {
+  background-color: #cc1104;
+}
+
+#choices {
+  display: grid;
+  grid-template-columns: 200px 200px;
+  grid-template-rows: 150px 150px;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#choices button.correct {
+  background-color: #5cd360 !important;
+  color: white;
+}
+
+#choices button.incorrect {
+  background-color: #cc1104 !important;
+  color: white;
+}
+
+#choices button {
+  width: 200px;
+  height: 150px;
+  font-size: 1.5em;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background-color: #eee69d;
+  color: rgb(2, 1, 1);
+  transition: background-color 0.3s;
+}
+
+#choices button:hover {
+  background-color: #ebde6a;
+}
+
+#abortButton {
+  margin-top: 20px;
+  padding: 5px 15px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: #b7b7b7;
+  color: rgb(9, 5, 5);
+  border: none;
+  width: auto;
+  position: absolute;
+  bottom: -40px;
+  right: 20px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+#abortButton:hover {
+  background-color: #d5d5d5;
+}
+
+#knowButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+#knowButton,
+#dontKnowButton,
+#flipButton {
+  width: 45%;
+  height: 4.5em;
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  background-color: #eee69d;
+  transition: background-color 0.3s;
+}
+
+#knowButton:hover,
+#dontKnowButton:hover {
+  background-color: #ebde6a;
+}
+
+#flipButton {
+  width: 93%;
+}
+
+#question, #vocabulary {
+  display: grid;
+  place-items: center;
+  margin: 20px;
+  padding: 10px;
+  font-size: 2.2em;
+  height: 120px;
+}
+
+.large-text {
+  padding: 15px;
+}
+
+.highlight {
+  background-color: yellow !important;
+  color: rgb(14, 10, 2) !important;
+}
+
+/* Media Query für kleinere Bildschirme (z. B. iPhone 15 Pro) */
+@media (max-width: 390px) {
   #container {
-    width: 450px;
-    background-color: white;
-    padding: 12px 20px 50px 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    position: relative;
-    height: auto;
-  }
-
-  button,
-  select {
-    margin-top: 15px;
-    padding: 10px;
-    width: 100%;
-    font-size: 1rem;
-  }
-
-  label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  #progress {
-    display: flex;
-    margin-top: 20px;
-    height: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .progress-segment {
-    flex: 1;
-    background-color: #ddd;
-  }
-
-  .progress-correct {
-    background-color: #5cd360;
-  }
-
-  .progress-incorrect {
-    background-color: #cc1104;
+      width: 90%; /* Anpassung der Breite an den Bildschirm */
+      padding: 10px;
   }
 
   #choices {
-    display: grid;
-    grid-template-columns: 200px 200px;
-    grid-template-rows: 150px 150px;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 20px;
+      grid-template-columns: 1fr 1fr; /* Automatische Breiten für Flexibilität */
+      grid-template-rows: auto auto;
+      gap: 10px;
   }
-
-  #choices button.correct {
-    background-color: #5cd360 !important;
-    color: white;
-  }
-
-  #choices button.incorrect {
-    background-color: #cc1104 !important;
-    color: white;
-  }
-
 
   #choices button {
-    width: 200px;
-    height: 150px;
-    font-size: 1.5em;
-    cursor: pointer;
-    border-radius: 8px;
-    border: none;
-    background-color: #eee69d;
-    color: rgb(2, 1, 1);
-    transition: background-color 0.3s;
+      width: 100%; /* Buttons füllen die Breite */
+      height: 100px; /* Kleinere Höhe für kleine Bildschirme */
+      font-size: 1.2em; /* Kleinere Schriftgröße */
   }
 
-  #choices button:hover {
-    background-color: #ebde6a;
+  #question, #vocabulary {
+      font-size: 1.8em; /* Schriftgröße anpassen */
+      height: 100px;
   }
 
   #abortButton {
-    margin-top: 20px;
-    padding: 5px 15px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    background-color: #b7b7b7;
-    color: rgb(9, 5, 5);
-    border: none;
-    width: auto;
-    position: absolute;
-    bottom: -40px;
-    right: 20px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-  }
-
-  #abortButton:hover {
-    background-color: #d5d5d5;
-  }
-
-  #knowButtons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+      position: static;
+      margin-top: 20px;
   }
 
   #knowButton,
   #dontKnowButton,
   #flipButton {
-    width: 45%;
-    height: 4.5em;
-    padding: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 10px;
-    border: none;
-    background-color: #eee69d;
-    transition: background-color 0.3s;
+      width: 100%; /* Buttons in voller Breite für einfache Bedienung */
+      font-size: 0.9rem;
+      height: 3.5em;
   }
-
-  #knowButton:hover,
-  #dontKnowButton:hover {
-    background-color: #ebde6a;
-  }
-
-  #flipButton {
-    width: 93%;
-  }
-
-
-  #question, #vocabulary {
-    display: grid;
-    place-items: center;
-    margin: 20px;
-    padding: 10px;
-    font-size: 2.2em;
-    height:120px;
-  }
-
-  .large-text {
-    padding: 15px;
-  }
-
-  .highlight {
-    background-color: yellow !important;
-    color: rgb(14, 10, 2) !important;
-  }
+}
