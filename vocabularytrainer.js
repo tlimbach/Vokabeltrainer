@@ -232,7 +232,7 @@ function showResultDialog() {
   playMp3Sound('sounds/marimba-win.mp3'); // Sound sofort abspielen
   setTimeout(() => {
     alert(
-      `Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`
+      `Herzlichen Glückwunsch! Du hast ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt!`
     );
     endTraining();
   }, 1000); // Verzögerung des Alerts um 1 Sekunde
