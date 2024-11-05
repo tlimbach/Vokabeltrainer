@@ -91,12 +91,25 @@ function selectNextFlashcard() {
 
 function setFlashcard(vocab) {
   currentVocab = vocab;
-  document.getElementById("vocabulary").innerText =
-    direction === "de-en" ? vocab.deutsch : vocab.englisch;
+  
+  // Extrahiere den anzuzeigenden Text in eine eigene Variable
+  let displayText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
+  
+  // Setze den Text im Element "vocabulary"
+  document.getElementById("vocabulary").innerText = displayText;
+  
+  // Prüfe die Länge des Textes und passe die Schriftgröße an
+  if (displayText.length > 15) {
+    document.getElementById("vocabulary").style.fontSize = "1.6em";
+  } else {
+    document.getElementById("vocabulary").style.fontSize = "2.2em"; // Standardgröße zurücksetzen
+  }
+
   document.getElementById("flipButton").classList.remove("hidden");
   document.getElementById("knowButton").classList.add("hidden");
   document.getElementById("dontKnowButton").classList.add("hidden");
 }
+
 
 function flipCard() {
   document.getElementById("vocabulary").innerText =
@@ -164,6 +177,14 @@ function loadMultipleChoiceQuestion() {
   choices.forEach(choice => {
     const button = document.createElement("button");
     button.textContent = choice; // Text wird unverändert angezeigt
+
+    if (choice.length > 15) {
+      button.style.fontSize = "1.3em";
+    } else {
+      button.style.fontSize = ""; // Standardgröße zurücksetzen
+    }
+  
+
     button.addEventListener("click", () => checkAnswer(button, choice, correctAnswer));
     choicesContainer.appendChild(button);
   });
