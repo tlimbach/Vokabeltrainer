@@ -158,3 +158,8 @@ body {
   .large-text {
     padding: 15px;
   }
+
+  .highlight {
+    background-color: yellow !important;
+    color: rgb(14, 10, 2) !important;
+  }

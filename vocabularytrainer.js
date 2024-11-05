@@ -147,6 +147,8 @@ function initializeProgressBar() {
   });
 }
 
+let correctButton = null; // Variable zur Speicherung des Buttons mit der korrekten Antwort
+
 function loadMultipleChoiceQuestion() {
   if (currentIndex >= vocabularyList.length) {
     showResultDialog();
@@ -163,7 +165,7 @@ function loadMultipleChoiceQuestion() {
   while (choices.length < 4) {
     const randomChoice =
       vocabularyList[Math.floor(Math.random() * vocabularyList.length)][
-      direction === "de-en" ? "englisch" : "deutsch"
+        direction === "de-en" ? "englisch" : "deutsch"
       ];
     if (!choices.includes(randomChoice)) {
       choices.push(randomChoice);
@@ -178,37 +180,52 @@ function loadMultipleChoiceQuestion() {
     const button = document.createElement("button");
     button.textContent = choice; // Text wird unverändert angezeigt
 
+    // Anpassung der Schriftgröße bei langen Wörtern
     if (choice.length > 15) {
       button.style.fontSize = "1.3em";
     } else {
       button.style.fontSize = ""; // Standardgröße zurücksetzen
     }
-  
 
-    button.addEventListener("click", () => checkAnswer(button, choice, correctAnswer));
+    // Speichern des Buttons, falls es die korrekte Antwort ist
+    if (choice === correctAnswer) {
+      correctButton = button; // Dieser Button enthält die richtige Antwort
+    }
+
+    button.addEventListener("click", () => checkAnswer(button, choice, correctAnswer, correctButton));
     choicesContainer.appendChild(button);
   });
 }
 
 
-function checkAnswer(button, selected, correct) {
+
+function checkAnswer(button, selected, correct, correctButton) {
+  var incorrect = false;
   if (selected === correct) {
     button.classList.add("correct");
     progressSegments[currentIndex].classList.add("progress-correct");
-    playMp3Sound('sounds/triangle_open.mp3')
+    playMp3Sound('sounds/triangle_open.mp3');
     correctAnswers++;
   } else {
+    incorrect = true;
+     // Markiere den correctButton, um ihn hervorzuheben
+    correctButton.classList.add("highlight");
     button.classList.add("incorrect");
     progressSegments[currentIndex].classList.add("progress-incorrect");
-    //playSound(210, 0.5);
-    playMp3Sound('sounds/belch.mp3')
+    playMp3Sound('sounds/belch.mp3');
+
+    setTimeout(() => {
+      button.classList.remove("correct", "incorrect");
+    }, 500);
+    
   }
 
+  // Entferne die Markierungen nach 1 Sekunde und lade die nächste Frage
   setTimeout(() => {
     button.classList.remove("correct", "incorrect");
     currentIndex++;
     loadMultipleChoiceQuestion();
-  }, 1000);
+  }, incorrect ? 1500 : 800);
 }
 
 function showResultDialog() {
