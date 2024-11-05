@@ -100,16 +100,12 @@ label {
 
 #abortButton {
   margin-top: 20px;
-  padding: 5px 15px;
   font-size: 0.8rem;
   cursor: pointer;
-  background-color: #b7b7b7;
-  color: rgb(9, 5, 5);
+  background-color: #fef5d1;
+  color: rgb(0144,144,144);
   border: none;
   width: auto;
-  position: absolute;
-  bottom: -40px;
-  right: 20px;
   border-radius: 4px;
   transition: background-color 0.3s;
 }
@@ -207,11 +203,7 @@ label {
       height: 80px;
   }
 
-  #abortButton {
-      position: static;
-      margin-top: 20px;
-  }
-
+  
   #knowButton,
   #dontKnowButton,
   #flipButton {
