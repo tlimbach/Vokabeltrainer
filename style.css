@@ -211,4 +211,12 @@ label {
       font-size: 0.9rem;
       height: 3.5em;
   }
+
+  button {
+    color: black !important;
+    text-decoration: none; /* Entfernt blaue Unterstreichung auf Links (falls nötig) */
+    appearance: none; /* Deaktiviert das Standard-Styling auf mobilen Browsern */
+    -webkit-appearance: none; /* Deaktiviert Standard-Styling in Safari */
+  }
+  
 }
