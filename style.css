@@ -172,11 +172,13 @@ label {
 #settings select,
 #settings button {
     margin-bottom: 20px; /* Fügen Sie hier den gewünschten Abstand hinzu */
+    background-color: rgb(255, 254, 242);
 }
 
 #settings button {
   height: 60px;
   border-radius: 10px;
+  background-color: rgb(235, 235, 235);
 }
 
 
