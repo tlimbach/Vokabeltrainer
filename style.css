@@ -184,7 +184,7 @@ label {
 
   #question, #vocabulary {
       font-size: 1.8em; /* Schriftgröße anpassen */
-      height: 100px;
+      height: 90px;
   }
 
   #abortButton {
