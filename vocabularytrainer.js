@@ -212,11 +212,15 @@ function checkAnswer(button, selected, correct) {
 }
 
 function showResultDialog() {
-  alert(
-    `Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`
-  );
-  endTraining();
+  playMp3Sound('sounds/marimba-win.mp3'); // Sound sofort abspielen
+  setTimeout(() => {
+    alert(
+      `Herzlichen Glückwunsch! Sie haben ${correctAnswers} von ${vocabularyList.length} Vokabeln korrekt übersetzt.`
+    );
+    endTraining();
+  }, 1000); // Verzögerung des Alerts um 1 Sekunde
 }
+
 
 function endTraining() {
   document.getElementById("abortButton").classList.add("hidden");
