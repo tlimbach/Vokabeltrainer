@@ -163,6 +163,16 @@ label {
   color: rgb(14, 10, 2) !important;
 }
 
+#fileselect {
+  padding-bottom: 20px;
+}
+
+#settings select,
+#settings button {
+    margin-bottom: 20px; /* Fügen Sie hier den gewünschten Abstand hinzu */
+}
+
+
 /* Media Query für kleinere Bildschirme (z. B. iPhone 15 Pro) */
 @media (max-width: 500px) {
   #container {
