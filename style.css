@@ -164,7 +164,7 @@ label {
 }
 
 /* Media Query für kleinere Bildschirme (z. B. iPhone 15 Pro) */
-@media (max-width: 390px) {
+@media (max-width: 500px) {
   #container {
       width: 90%; /* Anpassung der Breite an den Bildschirm */
       padding: 10px;
