@@ -179,6 +179,13 @@ function loadMultipleChoiceQuestion() {
   const correctAnswer = direction === "de-en" ? vocab.englisch : vocab.deutsch;
   const questionText = direction === "de-en" ? vocab.deutsch : vocab.englisch;
 
+  if (questionText.length > 40) {
+    document.getElementById("question").style.fontSize = "1.6em";
+  }
+  else {
+    document.getElementById("question").style.fontSize = "";
+  }
+
   document.getElementById("question").innerText = questionText;
 
   const choices = [correctAnswer];
@@ -200,7 +207,7 @@ function loadMultipleChoiceQuestion() {
     const button = document.createElement("button");
     button.textContent = choice; // Text wird unverändert angezeigt
 
-    console.log("CHougn " + choice  +" len = "+ choice.length);
+    console.log("CHougn " + choice + " len = " + choice.length);
 
     // Anpassung der Schriftgröße bei langen Wörtern
     if (choice.length > 40) {
@@ -210,7 +217,7 @@ function loadMultipleChoiceQuestion() {
     } else {
       button.style.fontSize = ""; // Standardgröße zurücksetzen
     }
-    
+
 
     // Speichern des Buttons, falls es die korrekte Antwort ist
     if (choice === correctAnswer) {
