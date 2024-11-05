@@ -171,8 +171,8 @@ label {
   }
 
   #choices {
-      grid-template-columns: 1fr 1fr; /* Automatische Breiten für Flexibilität */
-      grid-template-rows: auto auto;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
       gap: 10px;
   }
 
