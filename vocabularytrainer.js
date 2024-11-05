@@ -195,7 +195,7 @@ function checkAnswer(button, selected, correct) {
   if (selected === correct) {
     button.classList.add("correct");
     progressSegments[currentIndex].classList.add("progress-correct");
-    playSound(660, 0.15);
+    playPositiveSound();
     correctAnswers++;
   } else {
     button.classList.add("incorrect");
@@ -253,4 +253,26 @@ function playSound(frequency, duration) {
   gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
 
   oscillator.stop(audioContext.currentTime + duration);
+}
+
+function playPositiveSound() {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  // Klarere Frequenz und sanfte Sine-Welle
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(500, audioContext.currentTime); // Frequenz auf 500 Hz für Klarheit
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  // Schnellere, sanfte Ein- und Ausblendung für Klarheit
+  gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+  gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.02); // Kürzere Einblendzeit
+  gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2); // Kürzere Ausblendzeit
+
+  // Start- und Stoppzeiten
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.2); // Kurze Dauer für einen klaren, prägnanten Ton
 }
