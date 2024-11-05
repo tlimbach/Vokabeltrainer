@@ -195,12 +195,13 @@ function checkAnswer(button, selected, correct) {
   if (selected === correct) {
     button.classList.add("correct");
     progressSegments[currentIndex].classList.add("progress-correct");
-    playPositiveSound();
+    playMp3Sound('sounds/triangle_open.mp3')
     correctAnswers++;
   } else {
     button.classList.add("incorrect");
     progressSegments[currentIndex].classList.add("progress-incorrect");
-    playSound(210, 0.5);
+    //playSound(210, 0.5);
+    playMp3Sound('sounds/belch.mp3')
   }
 
   setTimeout(() => {
@@ -276,3 +277,9 @@ function playPositiveSound() {
   oscillator.start(audioContext.currentTime);
   oscillator.stop(audioContext.currentTime + 0.2); // Kurze Dauer für einen klaren, prägnanten Ton
 }
+
+function playMp3Sound(soundfile) {
+  const audio = new Audio(soundfile); // Pfad zur Sounddatei
+  audio.play();
+}
+
