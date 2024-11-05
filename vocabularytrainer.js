@@ -82,6 +82,7 @@ function startTraining() {
   currentIndex = 0;
 
   document.getElementById("settings").classList.add("hidden");
+  document.getElementById("startBtn").classList.add("hidden");
   document.getElementById("abortButton").classList.remove("hidden");
 
   if (currentMode === "flashcard") {
@@ -264,6 +265,7 @@ function endTraining() {
   document.getElementById("flashcard-mode").classList.add("hidden");
   document.getElementById("multiple-choice-mode").classList.add("hidden");
   document.getElementById("fileselect").classList.remove("hidden");
+  document.getElementById("startBtn").classList.remove("hidden");
 }
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();

@@ -27,7 +27,7 @@ button,
 select {
   margin-top: 15px;
   padding: 10px;
-  width: 100%;
+  width: 90%;
   font-size: 1rem;
 }
 
@@ -167,6 +167,7 @@ label {
 
 #fileselect {
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 #settings select,
