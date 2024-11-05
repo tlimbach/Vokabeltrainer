@@ -212,7 +212,7 @@ label {
       height: 3.5em;
   }
 
-  button {
+  select, button {
     color: black !important;
     text-decoration: none; /* Entfernt blaue Unterstreichung auf Links (falls nötig) */
     appearance: none; /* Deaktiviert das Standard-Styling auf mobilen Browsern */
