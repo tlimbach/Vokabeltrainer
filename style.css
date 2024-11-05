@@ -172,6 +172,11 @@ label {
     margin-bottom: 20px; /* Fügen Sie hier den gewünschten Abstand hinzu */
 }
 
+#settings button {
+  height: 60px;
+  border-radius: 10px;
+}
+
 
 /* Media Query für kleinere Bildschirme (z. B. iPhone 15 Pro) */
 @media (max-width: 500px) {
