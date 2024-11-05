@@ -193,7 +193,7 @@ label {
 
   #choices button {
       width: 100%; /* Buttons füllen die Breite */
-      height: 100px; /* Kleinere Höhe für kleine Bildschirme */
+      height: 80px; /* Kleinere Höhe für kleine Bildschirme */
       font-size: 1.2em; /* Kleinere Schriftgröße */
   }
 
