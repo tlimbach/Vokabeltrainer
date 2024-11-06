@@ -188,6 +188,10 @@ label {
   background-color: rgb(235, 235, 235);
 }
 
+select, button {
+  color: black !important;
+}
+
 
 /* Media Query für kleinere Bildschirme (z. B. iPhone 15 Pro) */
 @media (max-width: 500px) {
@@ -222,8 +226,6 @@ label {
       height: 3.5em;
   }
 
-  select, button {
-    color: black !important;
-  }
+ 
   
 }
