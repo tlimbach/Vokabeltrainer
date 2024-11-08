@@ -119,7 +119,8 @@ function speak() {
   const direction = document.getElementById("direction").value;
   const text = textElement.textContent || textElement.innerText; // Textinhalt des Elements
 
-  if (direction === 'en-de') {
+  //if (direction === 'en-de') 
+    {
     playVoice(selectedVoice, text);
   }
 }
