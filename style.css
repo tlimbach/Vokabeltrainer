@@ -194,18 +194,22 @@ select, button {
 
 /* Voice Settings */
   #voice {
-    width: 400px;
     display: flex;
-    gap: 10px; /* Abstand zwischen Combobox und Button */
+    gap: 20px; /* Abstand zwischen Combobox und Button */
     align-items: center; /* Vertikale Ausrichtung */
+    padding-right: 30px;
   }
 
   #voices {
-    flex: 3; /* 3 von 4 Einheiten (entspricht 75% des Platzes) */
+    flex-shrink: 1;
+    min-width: 50px;
   }
 
   #voice button {
-    flex: 1;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    flex-grow: 0;
     height: 30px;
     display: flex;
     align-items: center;
