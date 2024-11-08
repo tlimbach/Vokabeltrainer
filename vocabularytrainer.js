@@ -7,6 +7,7 @@ let currentIndex = 0;
 let progressSegments = [];
 
 // Standard-Vokabelliste, falls keine Datei geladen wird
+/*
 const defaultVocabulary = [
   { deutsch: "Apfel", englisch: "apple", score: 0 },
   { deutsch: "Haus", englisch: "house", score: 0 },
@@ -18,6 +19,20 @@ const defaultVocabulary = [
   { deutsch: "Schule", englisch: "school", score: 0 },
   { deutsch: "Baum", englisch: "tree", score: 0 },
   { deutsch: "Auto", englisch: "car", score: 0 }
+];
+*/
+
+const defaultVocabulary = [
+  { deutsch: "Der Apfel ist rot.", englisch: "The apple is red.", score: 0 },
+  { deutsch: "Das Haus ist groß.", englisch: "The house is big.", score: 0 },
+  { deutsch: "Der Tisch ist aus Holz.", englisch: "The table is made of wood.", score: 0 },
+  { deutsch: "Ich lese ein Buch.", englisch: "I am reading a book.", score: 0 },
+  { deutsch: "Der Stuhl ist bequem.", englisch: "The chair is comfortable.", score: 0 },
+  { deutsch: "Der Hund bellt laut.", englisch: "The dog is barking loudly.", score: 0 },
+  { deutsch: "Die Katze schläft.", englisch: "The cat is sleeping.", score: 0 },
+  { deutsch: "Die Schule ist alt.", englisch: "The school is old.", score: 0 },
+  { deutsch: "Der Baum ist hoch.", englisch: "The tree is tall.", score: 0 },
+  { deutsch: "Das Auto ist schnell.", englisch: "The car is fast.", score: 0 }
 ];
 
 
@@ -63,7 +78,6 @@ function populateVoiceList() {
   const hardcodedVoices = [
     'Daniel',
     'Karen',
-    'Fred',
     'Samantha',
     'Orgel',
     'Cellos',
