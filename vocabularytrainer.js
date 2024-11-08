@@ -91,7 +91,7 @@ function populateVoiceList() {
   // Hardcodierte Stimmenliste
   const hardcodedVoices = [
     'Daniel',
-    'Karen',
+  //  'Karen',
     'Samantha',
     'Orgel',
     'Cellos',
