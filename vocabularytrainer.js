@@ -47,6 +47,7 @@ function playVoice(selectedVoiceName, text) {
   const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
   const utterThis = new SpeechSynthesisUtterance(text);
   utterThis.voice = selectedVoice;
+  utterThis.rate = 0.6;
 
   synth.speak(utterThis);
 }
