@@ -144,6 +144,16 @@ label {
   transition: background-color 0.3s;
 }
 
+#knowButton {
+  background-color: #A8D5BA; 
+  background-color: #CDEAD6;  
+}
+
+#dontKnowButton {
+  background-color: #F4B6C2;
+  background-color: #FADADD;
+}
+
 #knowButton:hover,
 #dontKnowButton:hover {
   background-color: #ebde6a;
