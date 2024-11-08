@@ -155,6 +155,19 @@ function speak() {
   }
 }
 
+function speakQuestion() {
+  console.log("speakQuestion");
+  const selectedVoice = document.getElementById("voices").value;
+  const textElement = document.getElementById('question');
+  const direction = document.getElementById("direction").value;
+  const text = textElement.textContent || textElement.innerText; // Textinhalt des Elements
+
+  //if (direction === 'en-de') 
+    {
+    playVoice(selectedVoice, text);
+  }
+}
+
 document.getElementById("fileInput").addEventListener("change", function (event) {
   const file = event.target.files[0];
   if (file) {
