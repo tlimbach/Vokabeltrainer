@@ -83,6 +83,10 @@ function playVoice(selectedVoiceName, text) {
 }
 
 function populateVoiceList() {
+
+  let useHardcoded = true;
+
+  if (useHardcoded) {
   const voiceSelect = document.getElementById('voices');
 
   voiceSelect.innerHTML = '';
@@ -107,6 +111,25 @@ function populateVoiceList() {
     option.textContent = voice;
     voiceSelect.appendChild(option);
   });
+} else {
+  const voices = window.speechSynthesis.getVoices();
+  const voiceSelect = document.getElementById('voices');
+
+  console.log(voices.length + " voices");
+
+  // Filter englisches Englisch
+  const filteredVoices = voices.filter(voice => 
+    voice.lang.startsWith('en')
+  );
+
+  // Optionen in das Select-Element einfügen
+  filteredVoices.forEach(voice => {
+    const option = document.createElement('option');
+    option.value = voice.name;
+    option.textContent = `${voice.name} (${voice.lang})`;
+    voiceSelect.appendChild(option);
+  });
+}
 }
 
 /*
