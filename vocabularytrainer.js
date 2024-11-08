@@ -21,7 +21,7 @@ const defaultVocabulary = [
   { deutsch: "Auto", englisch: "car", score: 0 }
 ];
 */
-
+/*
 const defaultVocabulary = [
   { deutsch: "Der Apfel ist rot.", englisch: "The apple is red.", score: 0 },
   { deutsch: "Das Haus ist groß.", englisch: "The house is big.", score: 0 },
@@ -33,6 +33,20 @@ const defaultVocabulary = [
   { deutsch: "Die Schule ist alt.", englisch: "The school is old.", score: 0 },
   { deutsch: "Der Baum ist hoch.", englisch: "The tree is tall.", score: 0 },
   { deutsch: "Das Auto ist schnell.", englisch: "The car is fast.", score: 0 }
+];
+*/
+
+const defaultVocabulary = [
+  { deutsch: "Der Apfel, den ich gekauft habe, ist sehr saftig und lecker.", englisch: "The apple I bought is very juicy and delicious.", score: 0 },
+  { deutsch: "Das Haus am Ende der Straße hat ein rotes Dach und einen großen Garten.", englisch: "The house at the end of the street has a red roof and a large garden.", score: 0 },
+  { deutsch: "Der Tisch im Esszimmer ist mit einer schönen Tischdecke bedeckt.", englisch: "The table in the dining room is covered with a beautiful tablecloth.", score: 0 },
+  { deutsch: "Ich lese jeden Abend ein spannendes Buch, bevor ich schlafen gehe.", englisch: "I read an exciting book every evening before I go to sleep.", score: 0 },
+  { deutsch: "Der Stuhl, auf dem ich sitze, ist sehr bequem und hat weiche Polster.", englisch: "The chair I am sitting on is very comfortable and has soft cushions.", score: 0 },
+  { deutsch: "Der Hund spielt gerne im Garten und gräbt Löcher in den Boden.", englisch: "The dog likes to play in the garden and digs holes in the ground.", score: 0 },
+  { deutsch: "Die Katze schläft gerne auf dem Fensterbrett und sonnt sich im Licht.", englisch: "The cat likes to sleep on the windowsill and bask in the sunlight.", score: 0 },
+  { deutsch: "Die alte Schule in der Stadt hat viele Klassenzimmer und lange Flure.", englisch: "The old school in the town has many classrooms and long hallways.", score: 0 },
+  { deutsch: "Der Baum vor unserem Haus ist im Frühling voller grüner Blätter.", englisch: "The tree in front of our house is full of green leaves in spring.", score: 0 },
+  { deutsch: "Das Auto fährt schnell über die Autobahn und überholt andere Fahrzeuge.", englisch: "The car drives quickly on the highway and overtakes other vehicles.", score: 0 }
 ];
 
 
@@ -62,7 +76,7 @@ function playVoice(selectedVoiceName, text) {
   const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
   const utterThis = new SpeechSynthesisUtterance(text);
   utterThis.voice = selectedVoice;
-  utterThis.rate = 0.6;
+  utterThis.rate = 0.5;
   utterThis.pitch=1.4;
 
   synth.speak(utterThis);
