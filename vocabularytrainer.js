@@ -48,6 +48,7 @@ function playVoice(selectedVoiceName, text) {
   const utterThis = new SpeechSynthesisUtterance(text);
   utterThis.voice = selectedVoice;
   utterThis.rate = 0.6;
+  utterThis.pitch=1.4;
 
   synth.speak(utterThis);
 }
