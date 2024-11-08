@@ -6,19 +6,13 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  
   flex-direction: column;
 
   background-color: #fffdef;
-
-
-    background-image: repeating-linear-gradient(
-      -32deg,
-      #fffdef,
-      #fbf9e7 10px,
-      #fffdef 10px,
-      #fbf9e7 20px
-    );
+  background-image: url('images/paisley.png');
+  background-repeat: repeat; /* Wiederholt das Muster */
+  background-size: auto; /* Standardgröße */
+ 
     
 }
 
@@ -27,10 +21,20 @@ body {
   width: 450px;
   padding: 12px 20px 50px 50px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
  /* text-align: center; */
   position: relative;
   height: auto;
+
+  background-image: repeating-linear-gradient(
+    -32deg,
+    #fffdef,
+    #fbf9e7 10px,
+    #fffdef 10px,
+    #fbf9e7 20px
+  );
+  
+
 }
 
 button,
