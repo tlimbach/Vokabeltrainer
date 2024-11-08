@@ -19,8 +19,13 @@
       <button onclick="selectVocabularyFile()">Vokabelset auswählen</button>
       <input type="file" id="fileInput" class="hidden" accept=".txt" />
     </div>
+   
     <!-- Einstellungen -->
     <div id="settings">
+      <div id="voice">
+        <select id="voices" class="large-text"></select>
+        <button onclick="playVoiceSample()">Test</button>
+      </div>
       <label for="direction">Übersetzungsrichtung:</label>
       <select id="direction" class="large-text">
         <option value="de-en">Deutsch -> Englisch</option>
@@ -38,7 +43,7 @@
 
     <!-- Karteikarten-Modus -->
     <div id="flashcard-mode" class="hidden">
-      <p id="vocabulary"></p>
+      <p id="vocabulary" onclick="speak()"></p>
       <button id="flipButton" onclick="flipCard()">Karte umdrehen</button>
       <div id="knowButtons">
         <button id="knowButton" class="hidden" onclick="markKnown(true)">Kann ich</button>

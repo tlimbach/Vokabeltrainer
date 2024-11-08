@@ -25,10 +25,10 @@ body {
 #container {
   background-color: rgb(231, 254, 249);
   width: 450px;
-  padding: 12px 20px 50px 20px;
+  padding: 12px 20px 50px 50px;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
+ /* text-align: center; */
   position: relative;
   height: auto;
 }
@@ -190,6 +190,31 @@ label {
 
 select, button {
   color: black !important;
+}
+
+/* Voice Settings */
+  #voice {
+    width: 400px;
+    display: flex;
+    gap: 10px; /* Abstand zwischen Combobox und Button */
+    align-items: center; /* Vertikale Ausrichtung */
+  }
+
+  #voices {
+    flex: 3; /* 3 von 4 Einheiten (entspricht 75% des Platzes) */
+  }
+
+  #voice button {
+    flex: 1;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Entfernt zusätzlichen Innenabstand */
+    margin: 0; /* Entfernt eventuelle äußere Abstände */
+    border-radius: 130px;
+    position: relative;
+    top:-5px;
 }
 
 

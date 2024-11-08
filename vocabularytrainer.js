@@ -20,8 +20,108 @@ const defaultVocabulary = [
   { deutsch: "Auto", englisch: "car", score: 0 }
 ];
 
+
+populateVoiceList();
+
+function playVoiceSample() {
+  
+  const voiceSelect = document.getElementById('voices');
+  const selectedVoiceName = voiceSelect.value;
+
+  if (!selectedVoiceName) {
+    alert('Bitte wählen Sie eine Stimme aus.');
+    return;
+  }
+
+  playVoice(selectedVoiceName, "Hello, my name is " + selectedVoiceName);
+
+  
+}
+
+function playVoice(selectedVoiceName, text) {
+
+  console.log("voicename >"+selectedVoiceName+"<");
+
+  const synth = window.speechSynthesis;
+  const voices = synth.getVoices();
+  const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
+  const utterThis = new SpeechSynthesisUtterance(text);
+  utterThis.voice = selectedVoice;
+
+  synth.speak(utterThis);
+}
+
+function populateVoiceList() {
+  const voiceSelect = document.getElementById('voices');
+
+  voiceSelect.innerHTML = '';
+
+
+  // Hardcodierte Stimmenliste
+  const hardcodedVoices = [
+    'Daniel',
+    'Karen',
+    'Fred',
+    'Samantha',
+    'Orgel',
+    'Cellos',
+    'Zarvox',
+    'Flüstern',
+    'Seifenblasen'
+  ];
+
+  // Optionen in das Select-Element einfügen
+  hardcodedVoices.forEach(voice => {
+    const option = document.createElement('option');
+    option.value = voice;
+    option.textContent = voice;
+    voiceSelect.appendChild(option);
+  });
+}
+
+/*
+function populateVoiceList() {
+  const voices = window.speechSynthesis.getVoices();
+  const voiceSelect = document.getElementById('voices');
+
+  console.log(voices.length + " voices");
+
+  // Filter englisches Englisch
+  const filteredVoices = voices.filter(voice => 
+    voice.lang === 'en-GB'
+  );
+
+  // Optionen in das Select-Element einfügen
+  filteredVoices.forEach(voice => {
+    const option = document.createElement('option');
+    option.value = voice.name;
+    option.textContent = `${voice.name} (${voice.lang})`;
+    voiceSelect.appendChild(option);
+  });
+}*/
+
+
+// Eventlistener für das Laden der Stimmen (falls verzögert geladen)
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = populateVoiceList;
+} else {
+  populateVoiceList();
+}
+
 function selectVocabularyFile() {
   document.getElementById("fileInput").click();
+}
+
+function speak() {
+  console.log("speak");
+  const selectedVoice = document.getElementById("voices").value;
+  const textElement = document.getElementById('vocabulary');
+  const direction = document.getElementById("direction").value;
+  const text = textElement.textContent || textElement.innerText; // Textinhalt des Elements
+
+  if (direction === 'en-de') {
+    playVoice(selectedVoice, text);
+  }
 }
 
 document.getElementById("fileInput").addEventListener("change", function (event) {
