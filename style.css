@@ -263,7 +263,7 @@ select, button {
 /* Media Query für kleinere Bildschirme (z. B. iPhone 15 Pro) */
 @media (max-width: 500px) {
   #container {
-      width: 80%; /* Anpassung der Breite an den Bildschirm */
+      width: 75%; /* Anpassung der Breite an den Bildschirm */
       padding: 10px;
   }
 
@@ -291,6 +291,10 @@ select, button {
       width: 100%; /* Buttons in voller Breite für einfache Bedienung */
       font-size: 0.9rem;
       height: 3.5em;
+  }
+
+  #abortButton {
+    margin-right: 40px;
   }
 
  
