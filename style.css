@@ -132,6 +132,9 @@ label {
   
 }
 
+#abortButton:hover {
+  background-color: #fef5d1ff;
+}
 
 
 #knowButtons {
@@ -155,19 +158,23 @@ label {
 }
 
 #knowButton {
-  background-color: #A8D5BA; 
   background-color: #CDEAD6;  
 }
 
 #dontKnowButton {
-  background-color: #F4B6C2;
   background-color: #FADADD;
 }
 
-#knowButton:hover,
-#dontKnowButton:hover,
-#flipButton:hover,
-#abortButton:hover{
+#knowButton:hover {
+  background-color: #A8D5BA; 
+}
+
+#dontKnowButton:hover {
+  background-color: #F4B6C2;
+}
+
+#flipButton:hover
+{
   background-color: #ebde6a;
 }
 
