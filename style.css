@@ -117,11 +117,12 @@ label {
   font-size: 0.8rem;
   cursor: pointer;
   background-color: #fef5d1;
-  color: rgb(0144,144,144);
-  border: none;
+  color: rgb(205, 205, 205);
   width: auto;
   border-radius: 4px;
   transition: background-color 0.3s;
+  border: 1px solid rgb(205, 205, 205);
+  
 }
 
 #abortButton:hover {
