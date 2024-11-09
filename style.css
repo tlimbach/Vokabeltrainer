@@ -16,6 +16,12 @@ body {
     
 }
 
+#outer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 #container {
   background-color: rgb(231, 254, 249);
   width: 450px;
@@ -116,18 +122,17 @@ label {
   margin-top: 20px;
   font-size: 0.8rem;
   cursor: pointer;
-  background-color: #fef5d1;
+  background-color: #fef5d13f;
   color: rgb(205, 205, 205);
   width: auto;
   border-radius: 4px;
   transition: background-color 0.3s;
   border: 1px solid rgb(205, 205, 205);
   
+  
 }
 
-#abortButton:hover {
-  background-color: #d5d5d5;
-}
+
 
 #knowButtons {
   display: flex;
@@ -161,7 +166,8 @@ label {
 
 #knowButton:hover,
 #dontKnowButton:hover,
-#flipButton:hover {
+#flipButton:hover,
+#abortButton:hover{
   background-color: #ebde6a;
 }
 
