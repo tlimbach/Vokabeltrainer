@@ -262,6 +262,7 @@ function startTraining() {
 
 function startFlashcardMode() {
   document.getElementById("flashcard-mode").classList.remove("hidden");
+  document.getElementById("flashcard-mode").style.display="flex";
   selectNextFlashcard();
 }
 
@@ -446,6 +447,7 @@ function endTraining() {
   document.getElementById("multiple-choice-mode").classList.add("hidden");
   document.getElementById("fileselect").classList.remove("hidden");
   document.getElementById("startBtn").classList.remove("hidden");
+  document.getElementById("flashcard-mode").style.display="none";
 }
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
