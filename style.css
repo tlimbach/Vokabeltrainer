@@ -207,6 +207,7 @@ label {
 .highlight {
   background-color: yellow !important;
   color: rgb(14, 10, 2) !important;
+  border: 2px solid rebeccapurple !important;
 }
 
 #fileselect {
