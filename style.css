@@ -263,7 +263,7 @@ select, button {
 /* Media Query für kleinere Bildschirme (z. B. iPhone 15 Pro) */
 @media (max-width: 500px) {
   #container {
-      width: 90%; /* Anpassung der Breite an den Bildschirm */
+      width: 80%; /* Anpassung der Breite an den Bildschirm */
       padding: 10px;
   }
 
