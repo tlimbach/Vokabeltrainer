@@ -405,7 +405,7 @@ function checkAnswer(button, selected, correct, correctButton) {
   if (selected === correct) {
     button.classList.add("correct");
     progressSegments[currentIndex].classList.add("progress-correct");
-    playMp3Sound('sounds/triangle_open.mp3');
+    playMp3Sound('sounds/belch.mp3');
     correctAnswers++;
   } else {
     incorrect = true;
@@ -413,8 +413,7 @@ function checkAnswer(button, selected, correct, correctButton) {
     correctButton.classList.add("highlight");
     button.classList.add("incorrect");
     progressSegments[currentIndex].classList.add("progress-incorrect");
-    playMp3Sound('sounds/belch.mp3');
-
+    playMp3Sound('sounds/triangle_open.mp3');
     setTimeout(() => {
       button.classList.remove("correct", "incorrect");
     }, 500);
